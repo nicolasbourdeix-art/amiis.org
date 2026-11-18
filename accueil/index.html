@@ -29,7 +29,7 @@
   .lim { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
   .ico { display: inline-flex; width: 1.15em; height: 1.15em; flex: none; } .ico svg { width: 100%; height: 100%; }
   /* barre */
-  header.barre { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.8); backdrop-filter: saturate(1.6) blur(14px); -webkit-backdrop-filter: saturate(1.6) blur(14px); border-bottom: 1px solid rgba(23,21,31,.06); }
+  header.barre { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.97); border-bottom: 1px solid rgba(23,21,31,.06); }
   header.barre .lim { display: flex; align-items: center; gap: 14px; height: 64px; }
   .marque { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 19px; letter-spacing: -.01em; }
   .marque img { width: 32px; height: 32px; border-radius: 9px; }
@@ -121,10 +121,10 @@
   .eco-tete { position: relative; z-index: 1; }
   .eco-defile { position: relative; z-index: 1; }
   .eco-scene { position: sticky; top: 64px; height: calc(100vh - 64px); height: calc(100svh - 64px); max-width: 1180px; margin: 0 auto; padding: 10px 20px 24px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: center; }
-  .eco-schema { height: 100%; min-height: 0; position: relative; overflow: hidden; }
-  .eco-schema svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform-origin: 0 0; transition: transform 1s cubic-bezier(.65,0,.35,1); }
+  .eco-schema { height: 100%; min-height: 0; position: relative; overflow: hidden; contain: strict; }
+  .eco-schema svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
   .eco-panneau { display: flex; flex-direction: column; gap: 16px; }
-  .eco-carte { background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)); border: 1px solid rgba(255,255,255,.1); border-radius: 22px; padding: 26px 24px 22px; box-shadow: 0 30px 60px rgba(0,0,0,.35); transition: opacity .35s, transform .35s; }
+  .eco-carte { background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)); border: 1px solid rgba(255,255,255,.1); border-radius: 22px; padding: 26px 24px 22px; box-shadow: 0 30px 60px rgba(0,0,0,.35); transition: opacity .35s, transform .35s; will-change: transform, opacity; contain: layout paint; }
   .eco-carte.change { opacity: 0; transform: translateY(14px) scale(.98); }
   .eco-carte > * { animation: eco-monte .55s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i, 0) * 80ms + 60ms); }
   .eco-tags i { animation: eco-pop .45s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--j, 0) * 60ms + 320ms); }
@@ -152,18 +152,17 @@
   /* schéma */
   #eco-svg .lien { stroke: rgba(167,139,250,.16); stroke-width: 2; transition: stroke .5s; }
   #eco-svg .lien.on { stroke: url(#eco-grad); stroke-width: 3; }
-  #eco-svg .flux { stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 26; opacity: 0; transition: opacity .5s; animation: eco-flux 1.2s linear infinite; }
+  #eco-svg .flux { stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 26; opacity: 0; transition: opacity .5s; animation: eco-flux 1.2s linear 3; }
   #eco-svg .flux.on { opacity: .75; }
   #eco-svg .flux.calme { opacity: .12; }
   /* tracé de la ligne vers l'acteur choisi */
   #eco-svg .trace { stroke: url(#eco-grad); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0s; }
-  #eco-svg .trace.on { stroke-dashoffset: 0; transition: stroke-dashoffset .9s cubic-bezier(.65,0,.35,1); }
+  #eco-svg .trace.on { stroke-dashoffset: 0; transition: stroke-dashoffset .7s cubic-bezier(.65,0,.35,1); }
   /* entrée des acteurs quand la section arrive à l'écran */
   #eco-svg .noeud > g.pop { transform-box: view-box; transform: scale(.2); opacity: 0; transition: transform .8s cubic-bezier(.34,1.56,.64,1), opacity .5s; transition-delay: calc(var(--k) * 110ms + 150ms); }
   #eco-svg.entre .noeud > g.pop { transform: none; opacity: 1; }
   #eco-svg .centre > g.pop { transform-box: view-box; transform-origin: 500px 350px; transform: scale(.2); opacity: 0; transition: transform .8s cubic-bezier(.34,1.56,.64,1), opacity .4s; }
   #eco-svg.entre .centre > g.pop { transform: none; opacity: 1; }
-  #eco-svg .noeud.on > g.pop circle.fond { animation: eco-rebond .7s cubic-bezier(.34,1.56,.64,1); transform-box: fill-box; transform-origin: center; }
   @keyframes eco-rebond { 0% { transform: scale(.85); } 60% { transform: scale(1.08); } 100% { transform: scale(1); } }
   @keyframes eco-flux { to { stroke-dashoffset: -28; } }
   #eco-svg .sat-lien { stroke: rgba(167,139,250,.35); stroke-width: 1.5; stroke-dasharray: 3 5; }
@@ -172,26 +171,43 @@
   #eco-svg .noeud.on circle.fond { fill: #1E1A2E; stroke: var(--lilas); stroke-width: 2.5; }
   #eco-svg .noeud.on .ic, #eco-svg .noeud.vu .ic { color: #fff; }
   #eco-svg .noeud.vu circle.fond { stroke: rgba(167,139,250,.55); }
-  #eco-svg circle.halo { fill: url(#eco-aura); stroke: none; opacity: 0; transition: opacity .5s; }
+  #eco-svg circle.halo { fill: rgba(167,139,250,.12); stroke: none; opacity: 0; transition: opacity .5s; }
   #eco-svg .noeud.on circle.halo { opacity: 1; }
+  .eco-noms { position: absolute; inset: 0; pointer-events: none; }
+  .eco-noms span { position: absolute; left: 0; top: 0; white-space: nowrap; font-family: var(--police); text-shadow: 0 1px 3px #0D0C14, 0 0 2px #0D0C14; }
+  .eco-date { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; width: 200px; text-align: center; color: #fff; font-family: var(--police); line-height: 1; opacity: 0; transition: opacity .5s; }
+  #eco-svg.entre + .eco-noms .eco-date { opacity: 1; }
+  .eco-date small { display: block; font-size: 30px; font-weight: 700; letter-spacing: 4px; color: #FDBA74; }
+  .eco-date b { display: block; font-size: 84px; font-weight: 800; letter-spacing: -2px; margin: 4px 0 2px; }
+  .eco-date span { position: static !important; display: block; font-size: 27px; font-weight: 600; opacity: .85; text-shadow: none !important; transform: none !important; }
+  .eco-noms .nom { font-size: 15px; font-weight: 700; color: #8E89A8; letter-spacing: -.01em; transition: color .5s, opacity .5s; opacity: 0; }
+  #eco-svg.entre + .eco-noms .nom { opacity: 1; transition-delay: calc(var(--k) * 110ms + 300ms), 0s; }
+  .eco-noms .nom.on, .eco-noms .nom.vu { color: #F4F2FA; }
+  .eco-noms .nom.on { font-size: 18px; }
+  .eco-noms:not(.vue) .nom:not(.on):not(.vu) { opacity: .5; }
+  .eco-noms .n { font-size: 12.5px; font-weight: 600; color: #C9C5D9; opacity: 0; transition: opacity .2s; }
+  .eco-noms .n.on { opacity: 1; transition: opacity .35s calc(var(--k) * 60ms + 200ms); }
+  .eco-noms.fin .n { display: none; }
+  .eco-noms.vue .nom { font-size: 12.5px; } .eco-noms.vue .nom.on { font-size: 13px; }
+  @media (min-width: 821px) { .eco-noms.vue .nom { font-size: 14px; } .eco-noms.vue .nom.on { font-size: 15px; } }
   #eco-svg .noeud .nom { font: 700 19px var(--police); fill: #8E89A8; text-anchor: middle; letter-spacing: -.01em; transition: fill .5s; paint-order: stroke; stroke: #0D0C14; stroke-width: 7px; stroke-linejoin: round; }
   #eco-svg .noeud.on .nom, #eco-svg .noeud.vu .nom { fill: #F4F2FA; }
   #eco-svg.zoom .noeud:not(.on):not(.vu) { opacity: .5; }
   #eco-svg .noeud { transition: opacity .5s; }
   #eco-svg .sats { pointer-events: none; }
   /* petites bulles : elles jaillissent de l'acteur une à une */
-  #eco-svg .sat { transform-box: view-box; transform: translate(var(--dx), var(--dy)) scale(.2); opacity: 0; transition: transform .35s ease-in, opacity .25s; }
-  #eco-svg .sats.on .sat { transform: none; opacity: 1; transition: transform .7s cubic-bezier(.34,1.56,.64,1), opacity .4s; transition-delay: calc(var(--k) * 90ms + 350ms); }
+  #eco-svg .sat { opacity: 0; transition: opacity .2s; }
+  #eco-svg .sats.on .sat { opacity: 1; transition: opacity .35s; transition-delay: calc(var(--k) * 60ms + 150ms); }
   #eco-svg .sat-lien { opacity: 0; transition: opacity .3s; }
-  #eco-svg .sats.on .sat-lien { opacity: 1; transition: opacity .6s; transition-delay: calc(var(--k) * 90ms + 300ms); }
-  #eco-svg .sats.vers .sat-lien { stroke: #FDBA74; stroke-dasharray: 2 10; stroke-width: 2.5; animation: eco-entrant 1s linear infinite; }
+  #eco-svg .sats.on .sat-lien { opacity: 1; transition: opacity .4s; transition-delay: calc(var(--k) * 50ms + 200ms); }
+  #eco-svg .sats.vers .sat-lien { stroke: #FDBA74; stroke-dasharray: 2 10; stroke-width: 2.5; animation: eco-entrant 1s linear 3; }
   @keyframes eco-entrant { to { stroke-dashoffset: 24; } }
   #eco-svg .sat circle { fill: #1A1824; stroke: rgba(255,255,255,.14); stroke-width: 1.5; }
   #eco-svg .sat .ic { color: #C4B5FD; }
   #eco-svg .sat text.n { font: 600 14px var(--police); fill: #C9C5D9; text-anchor: middle; paint-order: stroke; stroke: #0D0C14; stroke-width: 6px; stroke-linejoin: round; }
   #eco-svg .centre circle.d { fill: url(#eco-grad-c); }
   #eco-svg .centre circle.p { fill: none; stroke: var(--lilas); stroke-width: 2; opacity: .35; transform-box: fill-box; transform-origin: center; }
-  #eco-svg .centre.on circle.p { animation: eco-pouls 2s ease-in-out infinite; }
+  #eco-svg .centre.on circle.p { animation: eco-pouls 2s ease-in-out 2; }
   @keyframes eco-pouls { 50% { transform: scale(1.22); opacity: 0; } }
   #eco-svg .centre text { fill: #fff; text-anchor: middle; font-family: var(--police); }
   @media (max-width: 820px) {
@@ -204,7 +220,7 @@
     .eco-carte .date { padding: 8px 12px; margin-bottom: 10px; } .eco-carte .date b { font-size: 15.5px; }
     .eco-panneau { gap: 10px; }
   }
-  @media (prefers-reduced-motion: reduce) { .eco-carte > *, .eco-tags i { animation: none; } .eco-schema svg, #eco-svg .sat, #eco-svg .noeud > g.pop, #eco-svg .centre > g.pop { transition: none; } .eco-carte { transition: none; } #eco-svg .flux, #eco-svg .centre.on circle.p { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .eco-carte > *, .eco-tags i { animation: none; } #eco-svg .sat, #eco-svg .noeud > g.pop, #eco-svg .centre > g.pop { transition: none; } .eco-carte { transition: none; } #eco-svg .flux, #eco-svg .centre.on circle.p { animation: none; } }
   /* Ouverture : même animation AMIIS que l'appli et la vidéo (une fois par visite ; un appui la passe). */
   #intro { position: fixed; inset: 0; z-index: 50; overflow: hidden; background: var(--fond); display: flex; align-items: center; justify-content: center; transition: opacity .45s; cursor: pointer; --ai-fond: #ffffff; }
   #intro.fin { opacity: 0; pointer-events: none; }
@@ -317,7 +333,7 @@
   </div>
   <div class="eco-defile" id="eco-defile">
     <div class="eco-scene">
-      <div class="eco-schema"><svg id="eco-svg" viewBox="-40 -40 1080 780" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Schéma de l'écosystème AMIIS"></svg></div>
+      <div class="eco-schema"><svg id="eco-svg" viewBox="-40 -40 1080 780" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Schéma de l'écosystème AMIIS"></svg><div class="eco-noms" id="eco-noms" aria-hidden="true"></div></div>
       <div class="eco-panneau"><div class="eco-progres"><i id="eco-progres"></i></div><div class="eco-carte" id="eco-carte"></div><div class="eco-points" id="eco-points"></div></div>
     </div>
   </div>
@@ -468,18 +484,26 @@ function icoSvg(n) {
     + '<radialGradient id="eco-aura"><stop offset=".55" stop-color="#A78BFA" stop-opacity=".45"/><stop offset="1" stop-color="#A78BFA" stop-opacity="0"/></radialGradient>'
     + '<filter id="eco-lueur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9" in="SourceGraphic" result="f"/><feColorMatrix in="f" type="matrix" values="0 0 0 0 .55  0 0 0 0 .4  0 0 0 0 1  0 0 0 .75 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
   var gL = el('g', {}, svg), gS = el('g', {}, svg), gN = el('g', {}, svg);
+  // Noms en texte normal posé sur le schéma : ils suivent le zoom sans être redessinés (bien plus fluide sur téléphone).
+  var calqueNoms = document.getElementById('eco-noms'), NOMS = [], dateEl = null;
+  function nom(cl, s, x, y, k) { var e = document.createElement('span'); e.className = cl; e.textContent = s; e.style.setProperty('--k', k); calqueNoms.appendChild(e); NOMS.push({ e: e, x: x, y: y }); return e; }
+  function placerNoms(v) {
+    var W = calqueNoms.clientWidth, H = calqueNoms.clientHeight, k = Math.min(W / v[2], H / v[3]), ox = (W - v[2] * k) / 2, oy = (H - v[3] * k) / 2;
+    if (dateEl) dateEl.style.transform = 'translate3d(' + (ox + (C[0] - v[0]) * k).toFixed(1) + 'px,' + (oy + (C[1] - v[1]) * k).toFixed(1) + 'px,0) scale(' + (k / 2).toFixed(4) + ') translate(-50%,-50%)';
+    for (var i = 0; i < NOMS.length; i++) { var n = NOMS[i]; n.e.style.transform = 'translate3d(' + (ox + (n.x - v[0]) * k).toFixed(1) + 'px,' + (oy + (n.y - v[1]) * k).toFixed(1) + 'px,0) translate(-50%,-50%)'; }
+  }
   Object.keys(N).forEach(function(k) {
     var o = N[k], dx = o.x - C[0], dy = o.y - C[1], a0 = Math.atan2(dy, dx);
     o.lien = el('line', { 'class': 'lien', x1: C[0], y1: C[1], x2: o.x, y2: o.y }, gL);
     o.flux = el('line', { 'class': 'flux', x1: C[0], y1: C[1], x2: o.x, y2: o.y }, gL);
     o.trace = el('line', { 'class': 'trace', x1: C[0], y1: C[1], x2: o.x, y2: o.y, pathLength: 1 }, gL);
-    o.gs = el('g', { 'class': 'sats' }, gS);
+    o.gs = el('g', { 'class': 'sats' }, gS); o.ns = [];
     var nb = o.sats.length, dec = o.x === C[0] ? 0 : .38 * (o.y < C[1] ? -1 : 1) * (o.x > C[0] ? 1 : -1); // éventail écarté du nom
     o.sats.forEach(function(s, i) {
       var a = a0 + dec + (i - (nb - 1) / 2) * (o.ecart || .7), r = 142, x = o.x + r * Math.cos(a), y = o.y + r * Math.sin(a);
       el('line', { 'class': 'sat-lien', x1: o.x, y1: o.y, x2: x, y2: y, style: '--k:' + i }, o.gs);
       var g = el('g', { 'class': 'sat', style: '--k:' + i + ';--dx:' + (o.x - x) + 'px;--dy:' + (o.y - y) + 'px;transform-origin:' + x + 'px ' + y + 'px' }, o.gs); el('circle', { cx: x, cy: y, r: 24 }, g);
-      ico(s[0], x, y, 22, g); txt('text', { 'class': 'n', x: x, y: y + 44 }, s[1], g);
+      ico(s[0], x, y, 22, g); o.ns.push(nom('n', s[1], x, y + 40, i));
     });
     if (k === 'admin') {
       o.gm = el('g', { 'class': 'sats vers' }, gS);
@@ -491,17 +515,16 @@ function icoSvg(n) {
     }
     o.g = el('g', { 'class': 'noeud' }, gN);
     var gp = el('g', { 'class': 'pop', style: '--k:' + Object.keys(N).indexOf(k) + ';transform-origin:' + o.x + 'px ' + o.y + 'px' }, o.g);
-    el('circle', { 'class': 'halo', cx: o.x, cy: o.y, r: 82 }, gp);
+    el('circle', { 'class': 'halo', cx: o.x, cy: o.y, r: 70 }, gp);
     el('circle', { 'class': 'fond', cx: o.x, cy: o.y, r: 48 }, gp);
     ico(o.ic, o.x, o.y, 38, gp);
-    txt('text', { 'class': 'nom', x: o.x, y: o.y > C[1] ? o.y - 66 : o.y + 80 }, o.nom, gp);
+    o.lbl = nom('nom', o.nom, o.x, o.y > C[1] ? o.y - 72 : o.y + 74, Object.keys(N).indexOf(k));
   });
   var cg = el('g', { 'class': 'centre' }, gN), cgo = cg; cg = el('g', { 'class': 'pop' }, cgo);
   el('circle', { 'class': 'p', cx: C[0], cy: C[1], r: 66 }, cg);
   el('circle', { 'class': 'd', cx: C[0], cy: C[1], r: 62 }, cg);
-  txt('text', { x: C[0], y: C[1] - 22, 'font-size': 15, 'font-weight': 700, 'letter-spacing': 2, fill: '#FDBA74' }, 'MARS', cg);
-  txt('text', { x: C[0], y: C[1] + 16, 'font-size': 42, 'font-weight': 800 }, '14', cg);
-  txt('text', { x: C[0], y: C[1] + 39, 'font-size': 13.5, 'font-weight': 600, 'fill-opacity': .85 }, 'La date', cg);
+  // Texte de la date : en HTML, dessiné au double de sa taille puis réduit (net au zoom, sans être redessiné).
+  var dateEl = document.createElement('div'); dateEl.className = 'eco-date'; dateEl.innerHTML = '<small>MARS</small><b>14</b><span>La date</span>'; calqueNoms.appendChild(dateEl);
   cg = cgo;
   // Entrée : les acteurs apparaissent quand la section arrive à l'écran.
   if ('IntersectionObserver' in window) new IntersectionObserver(function(es, ob) { es.forEach(function(e) { if (e.isIntersecting) { svg.classList.add('entre'); ob.disconnect(); } }); }, { threshold: .25 }).observe(svg);
@@ -510,13 +533,14 @@ function icoSvg(n) {
   // Caméra : on anime le viewBox vers la zone de l'acteur.
   var tel = function() { return innerWidth < 821; };
   var TOUT = function() { return tel() ? [150, 20, 700, 660] : [-40, -40, 1080, 780]; }, cible = TOUT();
-  // Caméra : la vue complète reste dessinée une fois ; on déplace et agrandit l'image entière (mouvement fluide, fait par la carte graphique).
-  var BASE = [-40, -40, 1080, 780];
+  // Caméra : animée seulement pendant le passage d'une étape à l'autre (rien ne tourne ensuite).
+  var cam = TOUT(), anim = null, calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
   function versVue(v) {
-    cible = v; var W = svg.parentNode.clientWidth, H = svg.parentNode.clientHeight; if (!W || !H) return;
-    var k0 = Math.min(W / BASE[2], H / BASE[3]), ox = (W - BASE[2] * k0) / 2, oy = (H - BASE[3] * k0) / 2;
-    var z = Math.min(W / v[2], H / v[3]) / k0, px = ox + (v[0] + v[2] / 2 - BASE[0]) * k0, py = oy + (v[1] + v[3] / 2 - BASE[1]) * k0;
-    svg.style.transform = 'translate(' + (W / 2 - z * px).toFixed(1) + 'px,' + (H / 2 - z * py).toFixed(1) + 'px) scale(' + z.toFixed(4) + ')';
+    cible = v; if (anim) cancelAnimationFrame(anim);
+    var de = cam.slice(), t0 = performance.now(), d = calme ? 1 : 750;
+    (function pas(t) { var k = Math.min(1, (t - t0) / d), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      cam = de.map(function(a, i) { return a + (cible[i] - a) * e; }); svg.setAttribute('viewBox', cam.map(function(x) { return x.toFixed(1); }).join(' ')); placerNoms(cam);
+      anim = k < 1 ? requestAnimationFrame(pas) : null; })(t0);
   }
   function vueSur(x, y, w) { if (tel()) w *= .8; var h = w * (tel() ? 1 : .72); return [x - w / 2, y - h / 2, w, h]; }
   var barre = document.getElementById('eco-progres'), points = document.getElementById('eco-points'), carte = document.getElementById('eco-carte'), courant = -1;
@@ -524,13 +548,15 @@ function icoSvg(n) {
   function allerA(i) { var r = zone.getBoundingClientRect(), haut = window.scrollY + r.top, pas = (zone.offsetHeight - innerHeight) / ETAPES.length; window.scrollTo({ top: haut + pas * (i + .5) - 64, behavior: 'smooth' }); }
   function rendre(i, force) {
     if (i === courant && !force) return; courant = i; var e = ETAPES[i];
-    svg.classList.toggle('zoom', !e.vue);
+    svg.classList.toggle('zoom', !e.vue); calqueNoms.className = 'eco-noms' + (e.vue ? ' vue' : '') + (e.fin ? ' fin' : '');
     Object.keys(N).forEach(function(k) {
       var o = N[k], on = e.n === k || !!e.fin, vu = ETAPES.slice(0, i).some(function(x) { return x.n === k; });
       o.g.classList.toggle('on', on); o.g.classList.toggle('vu', vu && !on); o.lien.classList.toggle('on', on); o.flux.classList.toggle('on', on);
       if (!on || !o.trace.classList.contains('on')) o.trace.style.transitionDelay = on && e.fin ? Object.keys(N).indexOf(k) * 120 + 'ms' : '0ms';
       o.trace.classList.toggle('on', on);
       o.gs.classList.toggle('on', (e.n === k && !e.mutu) || !!e.fin);
+      o.lbl.classList.toggle('on', on); o.lbl.classList.toggle('vu', vu && !on);
+      o.ns.forEach(function(s) { s.classList.toggle('on', (e.n === k && !e.mutu) || !!e.fin); });
       if (o.gm) o.gm.classList.toggle('on', e.n === k && !!e.mutu);
     });
     cg.classList.toggle('on', e.n === 'centre' || !!e.fin);
@@ -556,7 +582,7 @@ function icoSvg(n) {
   }
   hauteur(); auDefilement();
   var attente = false; addEventListener('scroll', function() { if (attente) return; attente = true; requestAnimationFrame(function() { attente = false; auDefilement(); }); }, { passive: true });
-  addEventListener('resize', function() { hauteur(); var c = courant; courant = -1; svg.style.transition = 'none'; rendre(Math.max(0, c), true); svg.getBoundingClientRect(); svg.style.transition = ''; auDefilement(); });
+  addEventListener('resize', function() { placerNoms(cam); hauteur(); var c = courant; courant = -1; rendre(Math.max(0, c), true); auDefilement(); });
 })();
 </script>
 </body>
