@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AMIIS — la mutualisation simplifiée</title>
+<meta name="description" content="AMIIS, association des Landes : paie mutualisée, administration de production et outils en ligne pour les artistes, compagnies et lieux du spectacle.">
+<meta property="og:title" content="AMIIS — la mutualisation simplifiée">
+<meta property="og:description" content="Paie mutualisée, administration de production et outils en ligne pour les artistes, compagnies et lieux du spectacle.">
+<meta property="og:image" content="https://amiis.org/video/ecosysteme-16x9.jpg">
+<meta property="og:url" content="https://amiis.org/">
+<link rel="canonical" href="https://amiis.org/">
+<link rel="icon" href="../icon-192-v2.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon-v2.png">
+<meta name="theme-color" content="#F7941D">
+<script>
+  // Appli installée (icône sur l'écran d'accueil) : elle s'ouvre directement sur l'interface.
+  try { if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) location.replace('../?app=1'); } catch (e) {}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --orange: #E8973F; --orange2: #F7941D; --gris: #5E605F; --fond: #F6F3EE; --texte: #2E2A2A; --doux: #6B6560; --carte: #fff; --bord: #EADFD2; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--fond); color: var(--texte); font: 600 17px/1.55 'Nunito', system-ui, -apple-system, sans-serif; }
+  a { color: inherit; }
+  .lim { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  /* barre du haut */
+  header.barre { position: sticky; top: 0; z-index: 5; background: rgba(246,243,238,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--bord); }
+  header.barre .lim { display: flex; align-items: center; gap: 14px; height: 64px; }
+  .marque { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 900; font-size: 22px; letter-spacing: .5px; }
+  .marque img { width: 38px; height: 38px; border-radius: 10px; }
+  nav.liens { margin-left: auto; display: flex; gap: 18px; align-items: center; }
+  nav.liens a { text-decoration: none; color: var(--doux); font-weight: 700; font-size: 15px; }
+  nav.liens a:hover { color: var(--orange); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; padding: 13px 22px; font: 800 16px/1.2 'Nunito', system-ui, sans-serif; text-decoration: none; cursor: pointer; }
+  .btn.plein { background: var(--orange); color: #fff; box-shadow: 0 8px 22px rgba(232,151,63,.35); }
+  .btn.plein:hover { background: #d9862e; }
+  .btn.clair { background: #fff; color: var(--texte); border: 2px solid var(--bord); }
+  .btn.clair:hover { border-color: var(--orange); }
+  .btn.petit { padding: 9px 16px; font-size: 14px; }
+  @media (max-width: 760px) { nav.liens a:not(.btn) { display: none; } }
+  /* haut de page */
+  .hero { padding: 64px 0 40px; text-align: center; }
+  .hero img.logo { width: 108px; height: 108px; border-radius: 26px; box-shadow: 0 14px 40px rgba(232,151,63,.3); }
+  .hero h1 { margin: 18px 0 6px; font-size: clamp(34px, 7vw, 58px); font-weight: 900; line-height: 1.05; background: linear-gradient(90deg, var(--orange2) 10%, var(--gris) 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero .sous { font-size: clamp(18px, 3.4vw, 23px); font-weight: 800; color: var(--gris); margin: 0 0 14px; }
+  .hero p.intro { max-width: 680px; margin: 0 auto 26px; color: var(--doux); }
+  .boutons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  /* sections */
+  section { padding: 54px 0; }
+  section.blanc { background: #fff; border-top: 1px solid var(--bord); border-bottom: 1px solid var(--bord); }
+  h2 { font-size: clamp(26px, 4.6vw, 36px); font-weight: 900; margin: 0 0 8px; text-align: center; }
+  .chapo { text-align: center; color: var(--doux); max-width: 680px; margin: 0 auto 30px; }
+  .grille { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .carte { background: var(--carte); border: 1px solid var(--bord); border-radius: 18px; padding: 22px 20px; }
+  section.blanc .carte { background: var(--fond); }
+  .carte .ico { font-size: 30px; line-height: 1; }
+  .carte h3 { margin: 10px 0 6px; font-size: 19px; font-weight: 900; }
+  .carte p, .carte ul { margin: 0; color: var(--doux); font-size: 15.5px; }
+  .carte ul { padding-left: 18px; }
+  .carte li { margin: 2px 0; }
+  .etapes { counter-reset: e; }
+  .etapes .carte { position: relative; padding-top: 30px; }
+  .etapes .carte::before { counter-increment: e; content: counter(e); position: absolute; top: -16px; left: 20px; width: 34px; height: 34px; border-radius: 50%; background: var(--orange); color: #fff; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+  /* vidéo */
+  .video { display: block; position: relative; max-width: 860px; margin: 0 auto; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 50px rgba(60,40,20,.2); }
+  .video img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+  .video span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .video span b { width: 84px; height: 84px; border-radius: 50%; background: rgba(232,151,63,.95); color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; padding-left: 6px; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  /* connexion */
+  .acces .carte { display: flex; flex-direction: column; }
+  .acces .carte p { flex: 1; margin-bottom: 16px; }
+  .acces .carte .btn { align-self: flex-start; }
+  /* tarifs */
+  .bandeau { background: linear-gradient(120deg, #FFF1E0, #fff); border: 1px solid var(--bord); border-radius: 22px; padding: 30px 24px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; }
+  .bandeau h2 { text-align: left; margin: 0 0 4px; }
+  .bandeau p { margin: 0; color: var(--doux); max-width: 560px; }
+  footer { padding: 34px 0 44px; text-align: center; color: var(--doux); font-size: 14.5px; }
+  footer b { color: var(--orange); }
+  footer a { color: var(--orange); font-weight: 800; }
+</style>
+</head>
+<body>
+
+<header class="barre"><div class="lim">
+  <a class="marque" href="#haut"><img src="../icon-192-v2.png" alt="">AMIIS</a>
+  <nav class="liens">
+    <a href="#asso">L'association</a>
+    <a href="#services">Services</a>
+    <a href="#video">Vidéo</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#contact">Contact</a>
+    <a class="btn plein petit" href="#connexion">🔑 Se connecter</a>
+  </nav>
+</div></header>
+
+<div class="hero" id="haut"><div class="lim">
+  <img class="logo" src="../icon-512-v2.png" alt="Logo AMIIS">
+  <h1>AMIIS</h1>
+  <p class="sous">la mutualisation simplifiée</p>
+  <p class="intro">Association de Mutualisation d'Intermittents et Indépendants Solidaires, dans les Landes.
+    Nous prenons en charge la paie, l'administration et le suivi des dates pour que les artistes, les compagnies et les lieux se consacrent au spectacle.</p>
+  <div class="boutons">
+    <a class="btn plein" href="#connexion">🔑 Se connecter</a>
+    <a class="btn clair" href="../demo/">🎬 Essayer la démo</a>
+    <a class="btn clair" href="../video/">▶️ La vidéo (2 min)</a>
+  </div>
+</div></div>
+
+<section class="blanc" id="asso"><div class="lim">
+  <h2>L'association</h2>
+  <p class="chapo">AMIIS met en commun les tâches que chaque structure ferait seule : un même outil, une même équipe, des coûts partagés.</p>
+  <div class="grille">
+    <div class="carte"><div class="ico">🤝</div><h3>Mutualiser</h3><p>Plusieurs compagnies et artistes partagent une administration et une paie communes : moins de démarches, moins de frais.</p></div>
+    <div class="carte"><div class="ico">🧭</div><h3>Accompagner</h3><p>Contrats, déclarations, devis, notes de frais : nous vous guidons à chaque étape, avec des alertes avant les échéances.</p></div>
+    <div class="carte"><div class="ico">🔗</div><h3>Relier</h3><p>Une date de spectacle relie la diffusion, l'administration, la régie, le lieu d'accueil et les artistes, dans un seul outil.</p></div>
+  </div>
+</div></section>
+
+<section id="services"><div class="lim">
+  <h2>Nos services</h2>
+  <p class="chapo">À la carte : vous choisissez ce dont votre structure a besoin.</p>
+  <div class="grille">
+    <div class="carte"><div class="ico">💼</div><h3>Paie et social</h3><ul><li>Paie mutualisée des intermittents</li><li>Déclarations (DPAE, cachets)</li><li>Contrats signés en ligne</li><li>Fiches de paie dans votre espace</li></ul></div>
+    <div class="carte"><div class="ico">📊</div><h3>Comptabilité et gestion</h3><ul><li>Suivi des recettes et dépenses</li><li>Notes de frais signées en ligne</li><li>Caisses et budgets par projet</li></ul></div>
+    <div class="carte"><div class="ico">🎭</div><h3>Production et diffusion</h3><ul><li>Agenda des dates et devis</li><li>Contrats de cession</li><li>Suivi des contacts et relances</li><li>Feuilles de route et régie</li></ul></div>
+    <div class="carte"><div class="ico">🗂️</div><h3>Administration</h3><ul><li>Centre administratif : statuts, PV, AG</li><li>Bilan d'activité</li><li>Rappels avant les échéances</li></ul></div>
+  </div>
+</div></section>
+
+<section class="blanc" id="comment"><div class="lim">
+  <h2>Comment ça marche ?</h2>
+  <p class="chapo">Trois étapes pour rejoindre AMIIS.</p>
+  <div class="grille etapes">
+    <div class="carte"><h3>On en parle</h3><p>Vous nous présentez votre structure et vos besoins. Nous vous proposons les services utiles et un devis.</p></div>
+    <div class="carte"><h3>On vous ouvre un espace</h3><p>Vous recevez un code d'accès à votre portail : dates, contrats, documents et paie au même endroit.</p></div>
+    <div class="carte"><h3>On s'occupe du reste</h3><p>Déclarations, contrats, fiches de paie et rappels : l'équipe AMIIS suit tout, vous gardez la main.</p></div>
+  </div>
+</div></section>
+
+<section id="video"><div class="lim">
+  <h2>AMIIS en 2 minutes</h2>
+  <p class="chapo">Comment une date de spectacle relie tous ceux qui la font exister.</p>
+  <a class="video" href="../video/" aria-label="Voir la vidéo"><img src="../video/ecosysteme-16x9.jpg" alt="Aperçu de la vidéo AMIIS" loading="lazy"><span><b>▶</b></span></a>
+  <div class="boutons" style="margin-top:22px">
+    <a class="btn clair" href="../demo/">🎬 Essayer la démo, sans inscription</a>
+  </div>
+</div></section>
+
+<section class="blanc" id="connexion"><div class="lim acces">
+  <h2>Espace de connexion</h2>
+  <p class="chapo">Choisissez votre accès.</p>
+  <div class="grille">
+    <div class="carte"><div class="ico">🎭</div><h3>Compagnies, structures et artistes</h3><p>Votre portail avec le code d'accès reçu d'AMIIS : dates, contrats, déclarations, documents, notes de frais.</p><a class="btn plein" href="../?connexion=code">🔑 Ouvrir mon portail</a></div>
+    <div class="carte"><div class="ico">🛠️</div><h3>Équipe AMIIS</h3><p>L'interface de gestion de l'association, avec identifiant et mot de passe.</p><a class="btn clair" href="../?connexion=equipe">Connexion équipe</a></div>
+    <div class="carte"><div class="ico">❓</div><h3>Pas encore de code ?</h3><p>Votre structure n'a pas encore d'espace AMIIS : présentez-nous votre projet, nous vous ouvrons un accès.</p><a class="btn clair" href="mailto:asso.amiis.landes@gmail.com?subject=Demande%20d%27acc%C3%A8s%20AMIIS">✉️ Nous écrire</a></div>
+  </div>
+</div></section>
+
+<section id="tarifs"><div class="lim">
+  <div class="bandeau">
+    <div><h2>Nos tarifs</h2><p>Des tarifs adaptés à la taille de votre structure et aux services choisis. Consultez la grille ou demandez un devis.</p></div>
+    <div class="boutons">
+      <a class="btn plein" href="../?tarifs=public">💶 Voir les tarifs</a>
+      <a class="btn clair" href="mailto:asso.amiis.landes@gmail.com?subject=Demande%20de%20devis%20AMIIS">✉️ Demander un devis</a>
+    </div>
+  </div>
+</div></section>
+
+<footer id="contact"><div class="lim">
+  <p><b>AMIIS</b> · la mutualisation simplifiée · Landes</p>
+  <p>Une question ? Écrivez-nous : <a href="mailto:asso.amiis.landes@gmail.com">asso.amiis.landes@gmail.com</a></p>
+</div></footer>
+
+</body>
+</html>

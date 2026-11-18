@@ -7,6 +7,15 @@
      de signature, prévues pour la largeur de l'écran. -->
 <meta name="viewport" id="vp" content="width=980">
 <script>
+  // Adresse nue (amiis.org) : page d'accueil de l'association. Tout lien avec des paramètres
+  // (signature, portail, connexion, tarifs…) ouvre l'appli comme avant.
+  if (!location.search || /^\?moi=[01]$/.test(location.search)) {
+    try { var m = (location.search.match(/moi=([01])/) || [])[1]; if (m === '1') localStorage.setItem('amiis_moi', '1'); else if (m === '0') localStorage.removeItem('amiis_moi'); } catch (e) {}
+    var standalone = false; try { standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone; } catch (e) {}
+    if (!standalone) location.replace('accueil/' + location.hash);
+  }
+</script>
+<script>
   // Android : largeur de l'écran (comme l'appli installée Espace AMIIS) ; avec
   // la page de 980 px réduite, Chrome ne transmettait plus les appuis à
   // l'appli sur certains téléphones (Blackview Shark 8). &essai=980 : ancien réglage.
