@@ -132,7 +132,10 @@
   .avant { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 8px; }
   .avant .seul { opacity: .85; }
   section.blanc .avant .ensemble { background: #FFF4E6; border-color: #F3C99A; }
-  .grille + h3.titre3 { margin-top: 34px; }
+  @media (max-width: 640px) { .nom { flex-wrap: nowrap; gap: 4px; } .nom div { min-width: 0; flex: 1; padding: 8px 1px; border-radius: 12px; } .nom b { font-size: 26px; } .nom span { font-size: 9px; line-height: 1.2; display: block; letter-spacing: -.1px; } .presentation { font-size: 17px; } }
+  .presentation { max-width: 720px; margin: 0 auto; text-align: center; color: var(--doux); font-size: 18px; }
+  .presentation p { margin: 0 0 12px; }
+  .presentation b { color: var(--texte); }
 </style>
 </head>
 <body>
@@ -171,8 +174,7 @@
   <img class="logo" src="../icon-512-v2.png" alt="Logo AMIIS">
   <h1>AMIIS</h1>
   <p class="sous">la mutualisation simplifiée</p>
-  <p class="intro">Association de Mutualisation d'Intermittents et Indépendants Solidaires, dans les Landes.
-    Nous prenons en charge la paie, l'administration et le suivi des dates pour que les artistes, les compagnies et les lieux se consacrent au spectacle.</p>
+  <p class="intro">Un outil mutualisé pour la paie, l'administration et le suivi des dates, pour que les artistes, les compagnies et les lieux se consacrent au spectacle.</p>
   <div class="boutons">
     <a class="btn plein" href="#connexion">🔑 Se connecter</a>
     <a class="btn clair" href="../demo/">🎬 Essayer la démo</a>
@@ -182,8 +184,6 @@
 
 <section class="blanc" id="asso"><div class="lim">
   <h2>Qui sommes-nous ?</h2>
-  <p class="chapo">AMIIS est une association des Landes née d'un constat simple : les artistes et les petites structures du spectacle passent trop de temps sur l'administratif, seuls, chacun de leur côté. Ensemble, c'est plus simple, plus sûr et moins cher.</p>
-
   <div class="nom">
     <div><b>A</b><span>Association</span></div>
     <div><b>M</b><span>de Mutualisation</span></div>
@@ -191,41 +191,9 @@
     <div><b>I</b><span>et Indépendants</span></div>
     <div><b>S</b><span>Solidaires</span></div>
   </div>
-
-  <div class="deux">
-    <div class="carte grande"><div class="ico">🎯</div><h3>Notre mission</h3>
-      <p>Permettre aux artistes et aux structures du spectacle de se consacrer à la création. Nous prenons en charge, pour elles et avec elles, ce qui demande du temps et de la rigueur : la paie, les déclarations, les contrats, le suivi comptable et administratif.</p>
-      <p>Chaque structure garde la main sur ses projets et ses décisions : AMIIS apporte l'outil, la méthode et une équipe qui suit les échéances.</p></div>
-    <div class="carte grande"><div class="ico">👥</div><h3>Pour qui ?</h3>
-      <ul>
-        <li><b>Compagnies et collectifs</b> qui n'ont pas d'administrateur à temps plein</li>
-        <li><b>Artistes et techniciens</b> intermittents ou indépendants</li>
-        <li><b>Structures employeuses</b> qui veulent sécuriser leur paie et leurs déclarations</li>
-        <li><b>Lieux et organisateurs</b> qui accueillent des spectacles</li>
-        <li><b>Chargés de diffusion</b> qui suivent les dates et les devis</li>
-      </ul></div>
-  </div>
-
-  <h3 class="titre3">Nos valeurs</h3>
-  <div class="grille">
-    <div class="carte"><div class="ico">🤝</div><h3>Solidarité</h3><p>Les outils et le travail administratif sont partagés : chacun en profite, les coûts sont répartis entre tous.</p></div>
-    <div class="carte"><div class="ico">🔍</div><h3>Transparence</h3><p>Chaque structure voit ses comptes, ses caisses, ses contrats et ses fiches de paie, à tout moment, dans son espace.</p></div>
-    <div class="carte"><div class="ico">📍</div><h3>Proximité</h3><p>Une équipe dans les Landes, qui connaît le spectacle et répond à vos questions.</p></div>
-    <div class="carte"><div class="ico">✨</div><h3>Simplicité</h3><p>Tout se fait en ligne : signature électronique, rappels avant les échéances, documents rangés au même endroit.</p></div>
-  </div>
-
-  <h3 class="titre3">Ce que la mutualisation change</h3>
-  <div class="avant">
-    <div class="carte seul"><h3>😓 Seul</h3><ul>
-      <li>Chacun cherche les bonnes règles de paie et de déclaration</li>
-      <li>Les contrats circulent par mail, à imprimer et scanner</li>
-      <li>Les échéances s'oublient, les documents s'éparpillent</li>
-      <li>Un logiciel et un temps d'administration à payer seul</li></ul></div>
-    <div class="carte ensemble"><h3>😊 Avec AMIIS</h3><ul>
-      <li>Une équipe qui connaît les règles du spectacle</li>
-      <li>Contrats et notes de frais signés en ligne, en quelques minutes</li>
-      <li>Des rappels automatiques et tout rangé dans votre espace</li>
-      <li>Un outil et une équipe partagés : des coûts répartis</li></ul></div>
+  <div class="presentation">
+    <p>Association basée dans les Landes, AMIIS est née d'un constat simple : les artistes et les petites structures du spectacle passent trop de temps sur l'administratif, seuls, chacun de leur côté.</p>
+    <p>Nous apportons un <b>outil mutualisé</b>, qui se construit <b>avec nos adhérents</b> au fil de leurs besoins. Partagé entre tous, il permet un <b>tarif associatif</b>.</p>
   </div>
 </div></section>
 
