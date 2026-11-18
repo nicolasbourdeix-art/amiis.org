@@ -79,9 +79,57 @@
   footer { padding: 34px 0 44px; text-align: center; color: var(--doux); font-size: 14.5px; }
   footer b { color: var(--orange); }
   footer a { color: var(--orange); font-weight: 800; }
+  /* Ouverture : même animation AMIIS que l'appli et la vidéo (une fois par visite ; un appui la passe). */
+  #intro { position: fixed; inset: 0; z-index: 50; background: var(--fond); display: flex; align-items: center; justify-content: center; transition: opacity .45s; cursor: pointer; --ai-fond: #F6F3EE; }
+  #intro.fin { opacity: 0; pointer-events: none; }
+  #intro .ai-intro { --w: min(52vw, 36vh, 300px); }
+  /* Animation d'ouverture AMIIS (bandes qui s'enroulent, têtes, nom, signature). */
+  .ai-intro { --w: 280px; width: var(--w); display: flex; flex-direction: column; align-items: center; }
+  .ai-logo { width: 100%; aspect-ratio: 1; will-change: transform; animation: ai-tour 2.3s cubic-bezier(.3,0,.15,1) both; }
+  .ai-pose { width: 100%; height: 100%; animation: ai-pose .5s 2.15s ease-out both; }
+  .ai-logo svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .ai-intro path, .ai-intro circle { fill: none; stroke-width: 68; stroke-linecap: round; }
+  .ai-intro .ai-o { stroke: #E8973F; } .ai-intro .ai-g { stroke: #5E605F; }
+  .ai-intro circle.ai-r { fill: var(--ai-fond, #F3F4F6); }
+  .ai-intro .ai-a { transform-box: view-box; transform-origin: 0 0; }
+  .ai-intro .ai-bande { stroke-dasharray: .2706 2; stroke-dashoffset: .2706; animation: ai-arrivee 1.7s cubic-bezier(.45,0,.2,1) forwards; }
+  .ai-intro .ai-bande.ai-g { animation-delay: .08s; }
+  @keyframes ai-arrivee { to { stroke-dashoffset: -.7294; } }
+  @keyframes ai-tour { from { transform: rotate(-200deg); } to { transform: rotate(0); } }
+  .ai-intro .ai-tete { animation: .8s 1.45s cubic-bezier(.34,1.56,.64,1) both; }
+  .ai-intro .ai-to { animation-name: ai-teteO; } .ai-intro .ai-tg { animation-name: ai-teteG; }
+  @keyframes ai-teteO { from { transform: translate(195px,378px) scale(0); } to { transform: none; } }
+  @keyframes ai-teteG { from { transform: translate(-195px,-378px) scale(0); } to { transform: none; } }
+  @keyframes ai-pose { 0%,100% { transform: scale(1); } 45% { transform: scale(1.04); } }
+  .ai-nom, .ai-base { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; white-space: nowrap; will-change: transform, opacity; }
+  .ai-nom { font-size: calc(var(--w) * .154); font-weight: 800; letter-spacing: calc(var(--w) * .0138); color: #5E605F; line-height: 1; margin-top: calc(var(--w) * .02); animation: ai-monte .7s 2.25s cubic-bezier(.2,.8,.2,1) both; }
+  .ai-base { font-size: calc(var(--w) * .052); font-weight: 500; letter-spacing: calc(var(--w) * .0015); color: #E8973F; margin-top: calc(var(--w) * .03); animation: ai-monte .7s 2.55s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes ai-monte { from { opacity: 0; transform: translateY(calc(var(--w) * .05)); } to { opacity: 1; transform: none; } }
+  /* Déjà vue (page de lien) ou mouvements réduits : logo posé directement. */
+  .ai-intro.ai-fixe *, .ai-intro.ai-fixe .ai-bande { animation: none !important; }
+  .ai-intro.ai-fixe .ai-bande { stroke-dashoffset: -.7294; }
+  @media (prefers-reduced-motion: reduce) { .ai-intro * { animation: none !important; } .ai-intro .ai-bande { stroke-dashoffset: -.7294; } }
 </style>
 </head>
 <body>
+<div id="intro" onclick="introFin()">
+  <div>
+    <div class="ai-intro" role="img" aria-label="AMIIS, la mutualisation simplifiée">
+    <div class="ai-logo"><div class="ai-pose"><svg viewBox="-62 -50 1300 1300">
+      <path class="ai-bande ai-o" pathLength="1" d="M4608 767 H608 A315 315 0 1 1 923 452"/>
+      <path class="ai-bande ai-g" pathLength="1" d="M-3432 433 H568 A315 315 0 1 1 253 748"/>
+      <g transform="translate(393 222)"><g class="ai-a ai-tete ai-to"><circle class="ai-r ai-o" r="124"/></g></g>
+      <g transform="translate(783 978)"><g class="ai-a ai-tete ai-tg"><circle class="ai-r ai-g" r="124"/></g></g>
+    </svg></div></div>
+    <div class="ai-nom">AMIIS</div><div class="ai-base">la mutualisation simplifiée</div>
+    </div>
+  </div>
+</div>
+<script>
+  var introVue = false; try { introVue = sessionStorage.getItem('amiis_intro') === '1'; sessionStorage.setItem('amiis_intro', '1'); } catch (e) {}
+  function introFin() { var i = document.getElementById('intro'); if (!i || i.classList.contains('fin')) return; i.classList.add('fin'); setTimeout(function() { i.remove(); }, 500); }
+  if (introVue || location.hash) document.getElementById('intro').remove(); else setTimeout(introFin, 3300);
+</script>
 
 <header class="barre"><div class="lim">
   <a class="marque" href="#haut"><img src="../icon-192-v2.png" alt="">AMIIS</a>
