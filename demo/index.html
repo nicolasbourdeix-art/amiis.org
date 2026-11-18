@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Démo AMIIS — tout l'écosystème</title>
+<meta name="description" content="Essayez AMIIS : une même date de spectacle vue par la diffusion, la compagnie, l'administration et la paie, la régie, le lieu d'accueil et l'équipe artistique. Données fictives.">
+<meta property="og:title" content="Démo AMIIS — tout l'écosystème">
+<meta property="og:description" content="Une même date de spectacle, vue par chaque métier. Données fictives, rien n'est enregistré.">
+<meta property="og:image" content="https://amiis.org/video/ecosysteme-16x9.jpg">
+<meta property="og:url" content="https://amiis.org/demo/">
+<link rel="icon" href="../icon-192-v2.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon-v2.png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --violet: #6D28D9; --orange: #E8973F; --gris: #5E605F; --fond: #F7F4FF; --texte: #2E2A3A; --doux: #5B5670; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; -webkit-text-size-adjust: 100%; }
+  body { background: radial-gradient(circle at 12% 6%, #EDE5FF 0, transparent 40%), radial-gradient(circle at 92% 70%, #FFEBD2 0, transparent 40%), var(--fond); color: var(--texte); font-family: 'Nunito', system-ui, sans-serif; padding: max(20px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom)); }
+  main { max-width: 1040px; margin: 0 auto; }
+  .sur { text-align: center; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; color: var(--violet); margin-top: 6px; }
+  h1 { margin: 6px 0 6px; font-size: clamp(28px, 6vw, 44px); font-weight: 900; text-align: center; line-height: 1.1; background: linear-gradient(90deg, var(--orange) 5%, var(--gris) 95%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--gris); }
+  .accroche { margin: 0 auto 18px; text-align: center; font-weight: 600; color: var(--doux); max-width: 680px; line-height: 1.5; font-size: 17px; }
+  video { display: block; margin: 0 auto; width: min(100%, 860px); aspect-ratio: 16 / 9; border-radius: 16px; background: #000; box-shadow: 0 18px 50px rgba(40,20,90,.22); }
+  body.vertical video { width: min(100%, calc(56vh * 9 / 16)); aspect-ratio: 9 / 16; }
+  .fil { margin: 26px auto 8px; max-width: 720px; background: #fff; border-radius: 18px; padding: 16px 18px; display: flex; gap: 14px; align-items: center; box-shadow: 0 8px 24px rgba(40,20,90,.08); border: 1px solid #E9E2FB; }
+  .fil .jour { flex: none; width: 64px; height: 64px; border-radius: 16px; background: var(--violet); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; line-height: 1; }
+  .fil .jour small { font-size: 11px; letter-spacing: .08em; opacity: .85; margin-bottom: 3px; } .fil .jour b { font-size: 24px; }
+  .fil p { margin: 0; color: var(--doux); font-weight: 600; line-height: 1.45; } .fil p b { color: var(--texte); }
+  h2 { text-align: center; font-size: 22px; font-weight: 900; margin: 26px 0 4px; }
+  .sous { text-align: center; color: var(--doux); margin: 0 0 16px; font-weight: 600; }
+  .roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+  .role { display: flex; gap: 14px; align-items: flex-start; text-decoration: none; color: inherit; background: #fff; border-radius: 18px; padding: 16px; border: 2px solid #EEE8FC; box-shadow: 0 6px 18px rgba(40,20,90,.06); transition: transform .15s, border-color .15s; }
+  .role:hover { transform: translateY(-2px); border-color: var(--violet); }
+  .role .ic { flex: none; width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: var(--c, #F1ECFF); }
+  .role b { display: block; font-size: 17px; font-weight: 900; margin-bottom: 3px; } .role span { color: var(--doux); font-weight: 600; font-size: 14px; line-height: 1.4; }
+  .role em { display: inline-block; margin-top: 8px; font-style: normal; font-weight: 800; color: var(--violet); font-size: 14px; }
+  .note { text-align: center; color: var(--doux); font-size: 13px; margin: 18px auto 0; max-width: 640px; line-height: 1.5; }
+  .boutons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 22px 0 6px; }
+  .boutons a, .boutons button { border: 0; border-radius: 999px; padding: 12px 20px; font: 800 16px/1.2 'Nunito', system-ui, sans-serif; cursor: pointer; text-decoration: none; }
+  .principal { background: var(--violet); color: #fff; box-shadow: 0 8px 20px rgba(109,40,217,.3); } .second { background: #fff; color: var(--violet); border: 2px solid #DDD3F7 !important; }
+  footer { margin-top: 30px; font-size: 13px; color: #7A7590; text-align: center; } footer b { color: var(--orange); }
+</style>
+</head>
+<body>
+<main>
+  <div class="sur">Démo en libre accès</div>
+  <h1>Tout l'écosystème AMIIS</h1>
+  <p class="accroche">Une même date de spectacle, vue par chaque métier : saisie une seule fois, partagée par tous. Regardez la vidéo d'une minute, puis entrez dans l'espace de votre choix.</p>
+  <video id="v" playsinline controls preload="metadata"></video>
+
+  <div class="fil"><div class="jour"><small>DATE</small><b>🎟️</b></div>
+    <p>Le fil rouge de la démo : <b>« La Nuit des Lucioles »</b> de la <b>Compagnie Les Lucioles</b>, au <b>Théâtre du Rivage, à Bordeaux</b>. Vendue par la diffusion, préparée par la régie, déclarée par l'administration, accueillie par le lieu, jouée par l'équipe.</p></div>
+
+  <h2>Entrez dans la démo en tant que…</h2>
+  <p class="sous">Dans chaque espace, le bouton « 🎬 Démo » en haut permet de passer à un autre rôle.</p>
+  <div class="roles">
+    <a class="role" data-r="DEMODIFF" style="--c:#FFF1DE"><div class="ic">📣</div><div><b>Diffusion</b><span>Trouver les lieux, mener les campagnes, suivre les relances et vendre les dates.</span><br><em>Entrer →</em></div></a>
+    <a class="role" data-r="DEMOCIE" style="--c:#FDE9F2"><div class="ic">🎭</div><div><b>Compagnie</b><span>Ses dates, ses projets, ses comptes et ses documents, toujours à jour, au même endroit.</span><br><em>Entrer →</em></div></a>
+    <a class="role" data-r="INTERFACE" style="--c:#EDE5FF"><div class="ic">🧾</div><div><b>Administration et paie</b><span>Contrats, DPAE, fiches de paie, déclarations et bilans, sans ressaisie.</span><br><em>Entrer →</em></div></a>
+    <a class="role" data-r="DEMOREGIE" style="--c:#E6F0FF"><div class="ic">🎛️</div><div><b>Régie</b><span>Planning heure par heure, fiche technique, transport, feuille de route et convocations.</span><br><em>Entrer →</em></div></a>
+    <a class="role" data-r="LIEU" style="--c:#E3F6EE"><div class="ic">🏛️</div><div><b>Lieu d'accueil</b><span>Ce que voit le théâtre par un simple lien : le planning, la technique, ses infos à compléter.</span><br><em>Entrer →</em></div></a>
+    <a class="role" data-r="EQUIPE" style="--c:#FFF6D6"><div class="ic">🎤</div><div><b>Équipe artistique</b><span>Le planning d'une comédienne : ses horaires, l'adresse, l'hébergement et le transport.</span><br><em>Entrer →</em></div></a>
+  </div>
+  <p class="note">Toutes les données sont fictives : vous pouvez cliquer partout, rien n'est enregistré et aucun e-mail n'est envoyé.</p>
+
+  <div class="boutons">
+    <button class="principal" onclick="partager()">📤 Partager la démo</button>
+    <a class="second" href="#" onclick="return contacter()">✉️ Nous contacter</a>
+  </div>
+  <footer><b>AMIIS</b> · la mutualisation simplifiée · Diffusion · Administration · Paie · Régie · Lieux · Artistes</footer>
+</main>
+<script>
+  var APPLI = 'https://script.google.com/macros/s/AKfycbz4gHbfrNc0zJN1CrLb5y6s1JuF32mAdR-yFUDsEH0RKcSutef6GppSAZFIkJxBPfQIZg/exec';
+  var CONTACT = 'asso.amiis.landes@gmail.com', LIEN = 'https://amiis.org/demo/';
+  var app = (navigator.userAgent.match(/iPhone|iPad|Android/i) || ['Ordinateur'])[0];
+  // Compteurs anonymes (avec l'adresse IP, pour écarter celles d'AMIIS), lus dans l'appli : Configuration › Accès › Trafic.
+  var ipP = fetch('https://api.ipify.org?format=json').then(function(r) { return r.json(); }).then(function(j) { return (j && j.ip) || ''; }).catch(function() { return ''; });
+  var ipT0 = Promise.race([ipP, new Promise(function(ok) { setTimeout(function() { ok(''); }, 3000); })]);
+  // Appareil de l'administrateur (lien ?moi=1) : compté à part, écarté du trafic.
+  var moi = false; try { moi = localStorage.getItem('amiis_moi') === '1'; } catch (e) {}
+  var ipT = ipT0.then(function(ip) { return moi ? 'moi ' + (ip || '0.0.0.0') : ip; });
+  function stat(ev, detail) { return ipT.then(function(ip) { try { return fetch(APPLI + '?stat=' + ev + '&app=' + encodeURIComponent(app) + '&ip=' + encodeURIComponent(ip) + (detail ? '&detail=' + encodeURIComponent(detail) : ''), { mode: 'no-cors', keepalive: true }).catch(function() {}); } catch (e) {} }); }
+  stat('demo_page');
+  // Vidéo verticale sur un écran en hauteur (téléphone), horizontale sinon.
+  var vertical = window.matchMedia && window.matchMedia('(orientation: portrait)').matches && Math.min(screen.width, screen.height) < 900;
+  if (vertical) document.body.classList.add('vertical');
+  var f = vertical ? 'ecosysteme-9x16' : 'ecosysteme-16x9', v = document.getElementById('v'), vue = false;
+  v.poster = '../video/' + f + '.jpg'; v.src = '../video/' + f + '.mp4';
+  v.addEventListener('play', function() { if (!vue) { vue = true; stat('video_vue'); } });
+  v.addEventListener('ended', function() { stat('video_fin'); });
+  // Entrées : la page de l'appli (lien public) avec le rôle de démo choisi.
+  Array.prototype.forEach.call(document.querySelectorAll('.role'), function(a) {
+    a.href = '../?role=demo&code=' + a.getAttribute('data-r');
+    a.addEventListener('click', function() { stat('demo_role', a.getAttribute('data-r')); });
+  });
+  function partager() {
+    stat('video_partage');
+    var t = 'Démo AMIIS — tout l’écosystème', x = 'Une même date de spectacle, vue par la diffusion, la compagnie, l’administration, la régie, le lieu et l’équipe.';
+    if (navigator.share) { navigator.share({ title: t, text: x, url: LIEN }).catch(function() {}); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(LIEN).then(function() { alert('Lien copié : ' + LIEN); }, function() { prompt('Lien de la démo :', LIEN); });
+    else prompt('Lien de la démo :', LIEN);
+  }
+  function contacter() { stat('video_contact'); location.href = 'mailto:' + CONTACT + '?subject=' + encodeURIComponent('AMIIS : demande d’informations'); return false; }
+</script>
+</body>
+</html>

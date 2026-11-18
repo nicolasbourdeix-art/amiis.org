@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<!-- Même échelle qu'à l'ouverture directe de l'appli (page de 980 px que le
+     téléphone réduit : l'interface mobile est réglée pour ça), sauf les pages
+     de signature, prévues pour la largeur de l'écran. -->
+<meta name="viewport" id="vp" content="width=980">
+<script>
+  // Android : largeur de l'écran (comme l'appli installée Espace AMIIS) ; avec
+  // la page de 980 px réduite, Chrome ne transmettait plus les appuis à
+  // l'appli sur certains téléphones (Blackview Shark 8). &essai=980 : ancien réglage.
+  if (/[?&](contrat|cession|ndf|invitation)=/.test(location.search) || (/Android/i.test(navigator.userAgent) && !/[?&]essai=980/.test(location.search))) document.getElementById('vp').content = 'width=device-width, initial-scale=1, viewport-fit=cover';
+  else if (Math.min(screen.width, screen.height) < 900) document.documentElement.className = 'reduit';
+</script>
+<meta name="robots" content="noindex">
+<!-- Écran d'ouverture : animation AMIIS (version du 01/11/2026). -->
+<title>AMIIS</title>
+<!-- Installable (Chrome : menu ⋮ › Installer AMIIS) : l'appli s'ouvre sur l'accueil, sans bandeau Google. -->
+<script>
+  // Manifeste choisi AVANT que le navigateur le lise (aucune balise fixe) :
+  // lien d'un portail (role + code, ex. portail diffusion) → manifeste sans
+  // start_url, l'icône de l'écran d'accueil rouvre CE portail avec son code ;
+  // sinon celui de l'appli (start_url = accueil).
+  (function() {
+    var portail = /[?&]role=[^&]/.test(location.search) && /[?&]code=[^&]/.test(location.search);
+    var l = document.createElement('link'); l.rel = 'manifest';
+    l.href = portail ? 'manifest-espace.webmanifest?v=3' : 'manifest-app.webmanifest';
+    document.head.appendChild(l);
+  })();
+</script>
+<link rel="icon" href="icon-192-v2.png">
+<link rel="apple-touch-icon" href="https://amiis.org/apple-touch-icon-v2.png">
+<meta name="theme-color" content="#F7941D">
+<style>
+  /* Safari iPad / iPhone : pas d'agrandissement automatique du texte. */
+  html, html * { -webkit-text-size-adjust: none; text-size-adjust: none; }
+  html, body { margin: 0; height: 100%; background: #F6F3EE; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #2b2b2b; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; }
+  #attente { position: fixed; inset: 0; z-index: 2; background: #F3F4F6; transition: opacity .35s; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box; }
+  .sp { width: 52px; height: 52px; margin: 0 auto 18px; border: 5px solid #f3d9b5; border-top-color: #F7941D; border-radius: 50%; animation: t 1s linear infinite; }
+  @keyframes t { to { transform: rotate(360deg); } }
+  h1 { font-size: 20px; margin: 0 0 8px; } p { font-size: 14px; color: #666; margin: 0 0 18px; }
+  a { display: inline-block; background: #F7941D; color: #fff; text-decoration: none; font-weight: 700; padding: 12px 22px; border-radius: 12px; }
+  #secours { visibility: hidden; }
+  #attente { overflow: hidden; }
+  /* Même taille que sur l'écran de chargement de l'appli : 52 % de l'écran sur téléphone. */
+  #attente .ai-intro { --w: min(52vw, 36vh, 300px); margin: 0 auto 28px; }
+  html.reduit #attente .ai-intro { --w: min(52vw, 36vh); }
+  /* Animation d'ouverture AMIIS (bandes qui s'enroulent, têtes, nom, signature). */
+  .ai-intro { --w: 280px; width: var(--w); display: flex; flex-direction: column; align-items: center; }
+  .ai-logo { width: 100%; aspect-ratio: 1; will-change: transform; animation: ai-tour 2.3s cubic-bezier(.3,0,.15,1) both; }
+  .ai-pose { width: 100%; height: 100%; animation: ai-pose .5s 2.15s ease-out both; }
+  .ai-logo svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .ai-intro path, .ai-intro circle { fill: none; stroke-width: 68; stroke-linecap: round; }
+  .ai-intro .ai-o { stroke: #E8973F; } .ai-intro .ai-g { stroke: #5E605F; }
+  .ai-intro circle.ai-r { fill: var(--ai-fond, #F3F4F6); }
+  .ai-intro .ai-a { transform-box: view-box; transform-origin: 0 0; }
+  .ai-intro .ai-bande { stroke-dasharray: .2706 2; stroke-dashoffset: .2706; animation: ai-arrivee 1.7s cubic-bezier(.45,0,.2,1) forwards; }
+  .ai-intro .ai-bande.ai-g { animation-delay: .08s; }
+  @keyframes ai-arrivee { to { stroke-dashoffset: -.7294; } }
+  @keyframes ai-tour { from { transform: rotate(-200deg); } to { transform: rotate(0); } }
+  .ai-intro .ai-tete { animation: .8s 1.45s cubic-bezier(.34,1.56,.64,1) both; }
+  .ai-intro .ai-to { animation-name: ai-teteO; } .ai-intro .ai-tg { animation-name: ai-teteG; }
+  @keyframes ai-teteO { from { transform: translate(195px,378px) scale(0); } to { transform: none; } }
+  @keyframes ai-teteG { from { transform: translate(-195px,-378px) scale(0); } to { transform: none; } }
+  @keyframes ai-pose { 0%,100% { transform: scale(1); } 45% { transform: scale(1.04); } }
+  .ai-nom, .ai-base { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; white-space: nowrap; will-change: transform, opacity; }
+  .ai-nom { font-size: calc(var(--w) * .154); font-weight: 800; letter-spacing: calc(var(--w) * .0138); color: #5E605F; line-height: 1; margin-top: calc(var(--w) * .02); animation: ai-monte .7s 2.25s cubic-bezier(.2,.8,.2,1) both; }
+  .ai-base { font-size: calc(var(--w) * .052); font-weight: 500; letter-spacing: calc(var(--w) * .0015); color: #E8973F; margin-top: calc(var(--w) * .03); animation: ai-monte .7s 2.55s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes ai-monte { from { opacity: 0; transform: translateY(calc(var(--w) * .05)); } to { opacity: 1; transform: none; } }
+  /* Déjà vue (page de lien) ou mouvements réduits : logo posé directement. */
+  .ai-intro.ai-fixe *, .ai-intro.ai-fixe .ai-bande { animation: none !important; }
+  .ai-intro.ai-fixe .ai-bande { stroke-dashoffset: -.7294; }
+  @media (prefers-reduced-motion: reduce) { .ai-intro * { animation: none !important; } .ai-intro .ai-bande { stroke-dashoffset: -.7294; } }
+
+  /* Écran d'attente lisible sur téléphone (page réduite à 980 px). */
+  html.reduit .sp { width: 120px; height: 120px; border-width: 12px; margin-bottom: 40px; } html.reduit h1 { font-size: 48px; } html.reduit p { font-size: 34px; margin-bottom: 40px; } html.reduit a { font-size: 34px; padding: 26px 46px; border-radius: 26px; }
+</style>
+</head>
+<body>
+<div id="attente">
+  <div>
+    <div class="ai-intro" role="img" aria-label="AMIIS, la mutualisation simplifiée">
+    <div class="ai-logo"><div class="ai-pose"><svg viewBox="-62 -50 1300 1300">
+      <path class="ai-bande ai-o" pathLength="1" d="M4608 767 H608 A315 315 0 1 1 923 452"/>
+      <path class="ai-bande ai-g" pathLength="1" d="M-3432 433 H568 A315 315 0 1 1 253 748"/>
+      <g transform="translate(393 222)"><g class="ai-a ai-tete ai-to"><circle class="ai-r ai-o" r="124"/></g></g>
+      <g transform="translate(783 978)"><g class="ai-a ai-tete ai-tg"><circle class="ai-r ai-g" r="124"/></g></g>
+    </svg></div></div>
+    <div class="ai-nom">AMIIS</div><div class="ai-base">la mutualisation simplifiée</div>
+  </div>
+    <a id="secours" href="#">Ouvrir directement / Open directly</a>
+  </div>
+</div>
+<iframe id="app" title="AMIIS" allow="clipboard-write; camera; microphone; fullscreen"></iframe>
+<script>
+  // Page relais des liens envoyés par mail : affiche l'application AMIIS en
+  // plein écran dans un cadre, avec les mêmes paramètres (code d'accès,
+  // contrat à signer, dossier…). Intégrée ainsi, l'application n'a pas le
+  // bandeau Google « créée par un utilisateur d'Apps Script ».
+  // Lien ?moi=1 : cet appareil est celui de l'administrateur (pages vidéo et démo du site) ; ?moi=0 pour annuler.
+  try { var moiP = new URLSearchParams(location.search).get('moi'); if (moiP === '1') localStorage.setItem('amiis_moi', '1'); else if (moiP === '0') localStorage.removeItem('amiis_moi'); } catch (e) {}
+  var APP = 'https://script.google.com/macros/s/AKfycbz4gHbfrNc0zJN1CrLb5y6s1JuF32mAdR-yFUDsEH0RKcSutef6GppSAZFIkJxBPfQIZg/exec';
+  // Ouverture directe (secours) : cadre=direct, sinon l'appli reviendrait ici.
+  var qd = new URLSearchParams(location.search); qd.set('cadre', 'direct');
+  var directe = APP + '?' + qd.toString() + (location.hash || '');
+  var cadre = document.getElementById('app');
+  document.getElementById('secours').href = directe;
+  function charger(v) {
+    var q = new URLSearchParams(location.search);
+    q.set('cadre', 'relais'); if (v) q.set('v', v);
+    cadre.src = APP + '?' + q.toString() + (location.hash || '');
+  }
+  var charge = false, basculee = false;
+  // Écran d'ouverture (animation AMIIS) : gardé jusqu'à la fin de l'animation (3 s) au moins.
+  var debutAttente = Date.now();
+  cadre.addEventListener('load', function() {
+    charge = true;
+    setTimeout(function() { var a = document.getElementById('attente'); a.style.opacity = '0'; setTimeout(function() { a.style.display = 'none'; }, 360); }, Math.max(0, 3100 - (Date.now() - debutAttente)));
+  });
+  // Certains téléphones Android (Chrome) ne transmettent pas les appuis à
+  // l'appli dans ce cadre : la page défile mais aucun bouton ne répond.
+  // Appuis reçus ici (et non par l'appli), ou signalés par l'appli : on
+  // ouvre l'appli directement, sans cadre.
+  function ouvrirSansCadre() { if (basculee) return; basculee = true; location.replace(directe); }
+  var appuisIci = 0;
+  document.addEventListener('touchstart', function(e) {
+    if (!charge || (e.target && e.target.closest && e.target.closest('#attente'))) return;
+    if (++appuisIci >= 2) ouvrirSansCadre();
+  }, { capture: true, passive: true });
+  // &essai=… : pas de bascule automatique (essais sur téléphone).
+  if (/[?&]essai=/.test(location.search)) basculee = true;
+  charger('');
+  // Si le cadre tarde (réseau, blocage du navigateur), lien d'ouverture directe.
+  setTimeout(function() { document.getElementById('secours').style.visibility = 'visible'; }, 12000);
+  // L'application signale une nouvelle version : on recharge le cadre.
+  window.addEventListener('message', function(e) {
+    var d = e.data || {};
+    if (d.amiis === 'recharger') charger(String(Date.now()));
+    else if (d.amiis === 'cadreDirect') ouvrirSansCadre();
+  });
+</script>
+</body>
+</html>
