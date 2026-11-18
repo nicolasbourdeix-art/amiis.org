@@ -125,7 +125,16 @@
   .eco-schema svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
   .eco-panneau { display: flex; flex-direction: column; gap: 16px; }
   .eco-carte { background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)); border: 1px solid rgba(255,255,255,.1); border-radius: 22px; padding: 26px 24px 22px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 30px 60px rgba(0,0,0,.35); transition: opacity .35s, transform .35s; }
-  .eco-carte.change { opacity: 0; transform: translateY(10px); }
+  .eco-carte.change { opacity: 0; transform: translateY(14px) scale(.98); }
+  .eco-carte > * { animation: eco-monte .55s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i, 0) * 80ms + 60ms); }
+  .eco-tags i { animation: eco-pop .45s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--j, 0) * 60ms + 320ms); }
+  @keyframes eco-monte { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes eco-pop { from { opacity: 0; transform: scale(.6); } }
+  .eco-num { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+  .eco-num b { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--lilas); }
+  .eco-num span { font-size: 13px; font-weight: 600; color: #6F6A86; font-variant-numeric: tabular-nums; } .eco-num span em { font-style: normal; font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -.03em; }
+  .eco-progres { height: 3px; border-radius: 3px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .eco-progres i { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, var(--lilas), #F59A3C); }
   .eco-carte .t { display: flex; gap: 12px; align-items: center; font-size: 21px; font-weight: 700; letter-spacing: -.02em; margin: 0 0 10px; }
   .eco-carte .t .pic { width: 40px; height: 40px; border-radius: 11px; background: rgba(167,139,250,.14); color: #C4B5FD; box-shadow: 0 0 0 1px rgba(167,139,250,.25) inset; }
   .eco-carte .t .pic .ico { width: 20px; height: 20px; }
@@ -144,7 +153,18 @@
   #eco-svg .lien { stroke: rgba(167,139,250,.16); stroke-width: 2; transition: stroke .5s; }
   #eco-svg .lien.on { stroke: url(#eco-grad); stroke-width: 3; }
   #eco-svg .flux { stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 26; opacity: 0; transition: opacity .5s; animation: eco-flux 1.2s linear infinite; }
-  #eco-svg .flux.on { opacity: .7; }
+  #eco-svg .flux.on { opacity: .75; }
+  #eco-svg .flux.calme { opacity: .12; }
+  /* tracé de la ligne vers l'acteur choisi */
+  #eco-svg .trace { stroke: url(#eco-grad); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0s; }
+  #eco-svg .trace.on { stroke-dashoffset: 0; transition: stroke-dashoffset .9s cubic-bezier(.65,0,.35,1); }
+  /* entrée des acteurs quand la section arrive à l'écran */
+  #eco-svg .noeud > g.pop { transform-box: view-box; transform: scale(.2); opacity: 0; transition: transform .8s cubic-bezier(.34,1.56,.64,1), opacity .5s; transition-delay: calc(var(--k) * 110ms + 150ms); }
+  #eco-svg.entre .noeud > g.pop { transform: none; opacity: 1; }
+  #eco-svg .centre > g.pop { transform-box: view-box; transform-origin: 500px 350px; transform: scale(.2); opacity: 0; transition: transform .8s cubic-bezier(.34,1.56,.64,1), opacity .4s; }
+  #eco-svg.entre .centre > g.pop { transform: none; opacity: 1; }
+  #eco-svg .noeud.on > g.pop circle.fond { animation: eco-rebond .7s cubic-bezier(.34,1.56,.64,1); transform-box: fill-box; transform-origin: center; }
+  @keyframes eco-rebond { 0% { transform: scale(.85); } 60% { transform: scale(1.08); } 100% { transform: scale(1); } }
   @keyframes eco-flux { to { stroke-dashoffset: -28; } }
   #eco-svg .sat-lien { stroke: rgba(167,139,250,.35); stroke-width: 1.5; stroke-dasharray: 3 5; }
   #eco-svg .noeud circle.fond { fill: #17151F; stroke: rgba(167,139,250,.22); stroke-width: 2; transition: stroke .5s, fill .5s; }
@@ -158,8 +178,14 @@
   #eco-svg .noeud.on .nom, #eco-svg .noeud.vu .nom { fill: #F4F2FA; }
   #eco-svg.zoom .noeud:not(.on):not(.vu) { opacity: .5; }
   #eco-svg .noeud { transition: opacity .5s; }
-  #eco-svg .sats { opacity: 0; transition: opacity .5s .2s; pointer-events: none; }
-  #eco-svg .sats.on { opacity: 1; }
+  #eco-svg .sats { pointer-events: none; }
+  /* petites bulles : elles jaillissent de l'acteur une à une */
+  #eco-svg .sat { transform-box: view-box; transform: translate(var(--dx), var(--dy)) scale(.2); opacity: 0; transition: transform .35s ease-in, opacity .25s; }
+  #eco-svg .sats.on .sat { transform: none; opacity: 1; transition: transform .7s cubic-bezier(.34,1.56,.64,1), opacity .4s; transition-delay: calc(var(--k) * 90ms + 350ms); }
+  #eco-svg .sat-lien { opacity: 0; transition: opacity .3s; }
+  #eco-svg .sats.on .sat-lien { opacity: 1; transition: opacity .6s; transition-delay: calc(var(--k) * 90ms + 300ms); }
+  #eco-svg .sats.vers .sat-lien { stroke: #FDBA74; stroke-dasharray: 2 10; stroke-width: 2.5; animation: eco-entrant 1s linear infinite; }
+  @keyframes eco-entrant { to { stroke-dashoffset: 24; } }
   #eco-svg .sat circle { fill: #1A1824; stroke: rgba(255,255,255,.14); stroke-width: 1.5; }
   #eco-svg .sat .ic { color: #C4B5FD; }
   #eco-svg .sat text.n { font: 600 14px var(--police); fill: #C9C5D9; text-anchor: middle; paint-order: stroke; stroke: #0D0C14; stroke-width: 6px; stroke-linejoin: round; }
@@ -179,7 +205,7 @@
     .eco-carte .date { padding: 8px 12px; margin-bottom: 10px; } .eco-carte .date b { font-size: 15.5px; }
     .eco-panneau { gap: 10px; }
   }
-  @media (prefers-reduced-motion: reduce) { .eco-carte { transition: none; } #eco-svg .flux, #eco-svg .centre.on circle.p { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .eco-carte > *, .eco-tags i { animation: none; } #eco-svg .sat, #eco-svg .noeud > g.pop, #eco-svg .centre > g.pop { transition: none; } .eco-carte { transition: none; } #eco-svg .flux, #eco-svg .centre.on circle.p { animation: none; } }
   /* Ouverture : même animation AMIIS que l'appli et la vidéo (une fois par visite ; un appui la passe). */
   #intro { position: fixed; inset: 0; z-index: 50; overflow: hidden; background: var(--fond); display: flex; align-items: center; justify-content: center; transition: opacity .45s; cursor: pointer; --ai-fond: #ffffff; }
   #intro.fin { opacity: 0; pointer-events: none; }
@@ -293,7 +319,7 @@
   <div class="eco-defile" id="eco-defile">
     <div class="eco-scene">
       <div class="eco-schema"><svg id="eco-svg" viewBox="-40 -40 1080 780" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Schéma de l'écosystème AMIIS"></svg></div>
-      <div class="eco-panneau"><div class="eco-carte" id="eco-carte"></div><div class="eco-points" id="eco-points"></div></div>
+      <div class="eco-panneau"><div class="eco-progres"><i id="eco-progres"></i></div><div class="eco-carte" id="eco-carte"></div><div class="eco-points" id="eco-points"></div></div>
     </div>
   </div>
 </section>
@@ -445,46 +471,55 @@ function icoSvg(n) {
   Object.keys(N).forEach(function(k) {
     var o = N[k], dx = o.x - C[0], dy = o.y - C[1], a0 = Math.atan2(dy, dx);
     o.lien = el('line', { 'class': 'lien', x1: C[0], y1: C[1], x2: o.x, y2: o.y }, gL);
-    o.flux = el('line', { 'class': 'flux', x1: C[0], y1: C[1], x2: o.x, y2: o.y }, gL);
+    o.flux = el('line', { 'class': 'flux calme', x1: C[0], y1: C[1], x2: o.x, y2: o.y }, gL);
+    o.trace = el('line', { 'class': 'trace', x1: C[0], y1: C[1], x2: o.x, y2: o.y, pathLength: 1 }, gL);
     o.gs = el('g', { 'class': 'sats' }, gS);
     var nb = o.sats.length, dec = o.x === C[0] ? 0 : .38 * (o.y < C[1] ? -1 : 1) * (o.x > C[0] ? 1 : -1); // éventail écarté du nom
     o.sats.forEach(function(s, i) {
       var a = a0 + dec + (i - (nb - 1) / 2) * (o.ecart || .7), r = 142, x = o.x + r * Math.cos(a), y = o.y + r * Math.sin(a);
-      el('line', { 'class': 'sat-lien', x1: o.x, y1: o.y, x2: x, y2: y }, o.gs);
-      var g = el('g', { 'class': 'sat' }, o.gs); el('circle', { cx: x, cy: y, r: 24 }, g);
+      el('line', { 'class': 'sat-lien', x1: o.x, y1: o.y, x2: x, y2: y, style: '--k:' + i }, o.gs);
+      var g = el('g', { 'class': 'sat', style: '--k:' + i + ';--dx:' + (o.x - x) + 'px;--dy:' + (o.y - y) + 'px;transform-origin:' + x + 'px ' + y + 'px' }, o.gs); el('circle', { cx: x, cy: y, r: 24 }, g);
       ico(s[0], x, y, 22, g); txt('text', { 'class': 'n', x: x, y: y + 44 }, s[1], g);
     });
     if (k === 'admin') {
-      o.gm = el('g', { 'class': 'sats' }, gS);
+      o.gm = el('g', { 'class': 'sats vers' }, gS);
       MUTU.forEach(function(s, i) {
         var a = -Math.PI - .25 + i * (Math.PI + .5) / 5, x = o.x + 132 * Math.cos(a), y = o.y + 132 * Math.sin(a);
-        el('line', { 'class': 'sat-lien', x1: o.x, y1: o.y, x2: x, y2: y }, o.gm);
-        var g = el('g', { 'class': 'sat' }, o.gm); el('circle', { cx: x, cy: y, r: 25 }, g); ico(s, x, y, 22, g);
+        el('line', { 'class': 'sat-lien', x1: x, y1: y, x2: o.x, y2: o.y, style: '--k:' + i }, o.gm);
+        var g = el('g', { 'class': 'sat', style: '--k:' + i + ';--dx:' + (o.x - x) + 'px;--dy:' + (o.y - y) + 'px;transform-origin:' + x + 'px ' + y + 'px' }, o.gm); el('circle', { cx: x, cy: y, r: 25 }, g); ico(s, x, y, 22, g);
       });
     }
     o.g = el('g', { 'class': 'noeud' }, gN);
-    el('circle', { 'class': 'halo', cx: o.x, cy: o.y, r: 62 }, o.g);
-    el('circle', { 'class': 'fond', cx: o.x, cy: o.y, r: 48 }, o.g);
-    ico(o.ic, o.x, o.y, 38, o.g);
-    txt('text', { 'class': 'nom', x: o.x, y: o.y > C[1] ? o.y - 66 : o.y + 80 }, o.nom, o.g);
+    var gp = el('g', { 'class': 'pop', style: '--k:' + Object.keys(N).indexOf(k) + ';transform-origin:' + o.x + 'px ' + o.y + 'px' }, o.g);
+    el('circle', { 'class': 'halo', cx: o.x, cy: o.y, r: 62 }, gp);
+    el('circle', { 'class': 'fond', cx: o.x, cy: o.y, r: 48 }, gp);
+    ico(o.ic, o.x, o.y, 38, gp);
+    txt('text', { 'class': 'nom', x: o.x, y: o.y > C[1] ? o.y - 66 : o.y + 80 }, o.nom, gp);
   });
-  var cg = el('g', { 'class': 'centre' }, gN);
+  var cg = el('g', { 'class': 'centre' }, gN), cgo = cg; cg = el('g', { 'class': 'pop' }, cgo);
   el('circle', { 'class': 'p', cx: C[0], cy: C[1], r: 66 }, cg);
   el('circle', { 'class': 'd', cx: C[0], cy: C[1], r: 62 }, cg);
   txt('text', { x: C[0], y: C[1] - 22, 'font-size': 15, 'font-weight': 700, 'letter-spacing': 2, fill: '#FDBA74' }, 'MARS', cg);
   txt('text', { x: C[0], y: C[1] + 16, 'font-size': 42, 'font-weight': 800 }, '14', cg);
   txt('text', { x: C[0], y: C[1] + 39, 'font-size': 13.5, 'font-weight': 600, 'fill-opacity': .85 }, 'La date', cg);
+  cg = cgo;
+  // Entrée : les acteurs apparaissent quand la section arrive à l'écran.
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(es, ob) { es.forEach(function(e) { if (e.isIntersecting) { svg.classList.add('entre'); ob.disconnect(); } }); }, { threshold: .25 }).observe(svg);
+  else svg.classList.add('entre');
 
   // Caméra : on anime le viewBox vers la zone de l'acteur.
   var tel = function() { return innerWidth < 821; };
   var TOUT = function() { return tel() ? [150, 20, 700, 660] : [-40, -40, 1080, 780]; }, cam = TOUT(), cible = cam.slice(), anim = null;
-  function versVue(v) {
-    cible = v; if (anim) cancelAnimationFrame(anim);
-    var de = cam.slice(), t0 = performance.now(), d = matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 950;
-    (function pas(t) { var k = Math.min(1, (t - t0) / d), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
-      cam = de.map(function(a, i) { return a + (cible[i] - a) * e; }); svg.setAttribute('viewBox', cam.join(' '));
-      if (k < 1) anim = requestAnimationFrame(pas); })(t0);
+  // Caméra amortie : elle glisse vers la vue de l'étape, et se rapproche doucement pendant qu'on descend dans l'étape.
+  var derive = 0, calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function vueEff() { var s = 1 - (ETAPES[Math.max(0, courant)].vue ? .02 : .09) * derive, w = cible[2] * s, h = cible[3] * s; return [cible[0] + (cible[2] - w) / 2, cible[1] + (cible[3] - h) / 2, w, h]; }
+  function boucle() {
+    var v = vueEff(), f = calme ? 1 : .075, bouge = false;
+    cam = cam.map(function(a, i) { var n = a + (v[i] - a) * f; if (Math.abs(v[i] - n) > .05) bouge = true; return n; });
+    svg.setAttribute('viewBox', cam.join(' '));
+    anim = bouge ? requestAnimationFrame(boucle) : null;
   }
+  function versVue(v) { cible = v; if (!anim) anim = requestAnimationFrame(boucle); }
   function vueSur(x, y, w) { if (tel()) w *= .8; var h = w * (tel() ? 1 : .72); return [x - w / 2, y - h / 2, w, h]; }
   var points = document.getElementById('eco-points'), carte = document.getElementById('eco-carte'), courant = -1;
   ETAPES.forEach(function(e, i) { var b = document.createElement('button'); b.setAttribute('aria-label', e.t); b.onclick = function() { allerA(i); }; points.appendChild(b); });
@@ -495,6 +530,8 @@ function icoSvg(n) {
     Object.keys(N).forEach(function(k) {
       var o = N[k], on = e.n === k || !!e.fin, vu = ETAPES.slice(0, i).some(function(x) { return x.n === k; });
       o.g.classList.toggle('on', on); o.g.classList.toggle('vu', vu && !on); o.lien.classList.toggle('on', on); o.flux.classList.toggle('on', on);
+      if (!on || !o.trace.classList.contains('on')) o.trace.style.transitionDelay = on && e.fin ? Object.keys(N).indexOf(k) * 120 + 'ms' : '0ms';
+      o.trace.classList.toggle('on', on);
       o.gs.classList.toggle('on', (e.n === k && !e.mutu) || !!e.fin);
       if (o.gm) o.gm.classList.toggle('on', e.n === k && !!e.mutu);
     });
@@ -504,16 +541,20 @@ function icoSvg(n) {
     carte.classList.add('change');
     setTimeout(function() {
       carte.className = 'eco-carte' + (e.fin ? ' fin' : '');
-      carte.innerHTML = '<div class="t"><span class="pic"><i class="ico">' + icoSvg(e.ic) + '</i></span>' + e.t + '</div>'
-        + (e.date ? '<div class="date"><b>' + e.date[0] + '</b><small>' + e.date[1] + '</small></div>' : '')
-        + '<p>' + e.p + '</p>' + (e.fort ? '<div class="fort">' + e.fort + '</div>' : '')
-        + (e.tags.length ? '<div class="eco-tags">' + e.tags.map(function(x) { return '<i>' + x + '</i>'; }).join('') + '</div>' : '');
+      var n = 0, s = function() { return ' style="--i:' + (n++) + '"'; };
+      carte.innerHTML = '<div class="eco-num"' + s() + '><b>' + (e.fin ? 'En résumé' : e.vue ? 'Le réseau' : 'Étape') + '</b><span><em>' + ('0' + (i + 1)).slice(-2) + '</em> / ' + ETAPES.length + '</span></div>'
+        + '<div class="t"' + s() + '><span class="pic"><i class="ico">' + icoSvg(e.ic) + '</i></span>' + e.t + '</div>'
+        + (e.date ? '<div class="date"' + s() + '><b>' + e.date[0] + '</b><small>' + e.date[1] + '</small></div>' : '')
+        + '<p' + s() + '>' + e.p + '</p>' + (e.fort ? '<div class="fort"' + s() + '>' + e.fort + '</div>' : '')
+        + (e.tags.length ? '<div class="eco-tags"' + s() + '>' + e.tags.map(function(x, j) { return '<i style="--j:' + j + '">' + x + '</i>'; }).join('') + '</div>' : '');
     }, carte.innerHTML ? 220 : 0);
   }
   function hauteur() { zone.style.height = (ETAPES.length * Math.max(420, innerHeight * .7) + innerHeight) + 'px'; }
   function auDefilement() {
-    var r = zone.getBoundingClientRect(), total = zone.offsetHeight - innerHeight, fait = Math.min(Math.max(-r.top + 64, 0), total - 1);
-    rendre(Math.min(ETAPES.length - 1, Math.floor(fait / (total / ETAPES.length))));
+    var r = zone.getBoundingClientRect(), total = zone.offsetHeight - innerHeight, fait = Math.min(Math.max(-r.top + 64, 0), total - 1), pas = total / ETAPES.length;
+    var i = Math.min(ETAPES.length - 1, Math.floor(fait / pas));
+    document.getElementById('eco-progres').style.width = (fait / total * 100).toFixed(2) + '%';
+    derive = (fait - i * pas) / pas; rendre(i); versVue(cible);
   }
   hauteur(); auDefilement();
   addEventListener('scroll', auDefilement, { passive: true });
