@@ -80,9 +80,20 @@
   footer b { color: var(--orange); }
   footer a { color: var(--orange); font-weight: 800; }
   /* Ouverture : même animation AMIIS que l'appli et la vidéo (une fois par visite ; un appui la passe). */
-  #intro { position: fixed; inset: 0; z-index: 50; background: var(--fond); display: flex; align-items: center; justify-content: center; transition: opacity .45s; cursor: pointer; --ai-fond: #F6F3EE; }
+  #intro { position: fixed; inset: 0; z-index: 50; overflow: hidden; background: var(--fond); display: flex; align-items: center; justify-content: center; transition: opacity .45s; cursor: pointer; --ai-fond: #F6F3EE; }
   #intro.fin { opacity: 0; pointer-events: none; }
-  #intro .ai-intro { --w: min(52vw, 36vh, 300px); }
+  #intro .ai-intro { --w: min(52vw, 36vh, 300px); position: relative; }
+  /* Comme à l'ouverture de la vidéo : une fois le logo formé, les deux demi-cercles pivotent face à face,
+     puis s'écartent à gauche et à droite en faisant apparaître AMIIS entre eux. */
+  #intro .m-o, #intro .m-g { transform-box: view-box; }
+  #intro .m-o { transform-origin: 608px 452px; animation: m-o 2s 2.45s both; }
+  #intro .m-g { transform-origin: 568px 748px; animation: m-g 2s 2.45s both; }
+  @keyframes m-o { 0% { transform: none; animation-timing-function: cubic-bezier(.5,0,.2,1); } 35%, 45% { transform: translate(-390px, 148px) rotate(-45deg); animation-timing-function: cubic-bezier(.55,0,.6,1); } 100% { transform: translate(-3200px, 148px) rotate(-45deg); } }
+  @keyframes m-g { 0% { transform: none; animation-timing-function: cubic-bezier(.5,0,.2,1); } 35%, 45% { transform: translate(390px, -148px) rotate(-45deg); animation-timing-function: cubic-bezier(.55,0,.6,1); } 100% { transform: translate(3200px, -148px) rotate(-45deg); } }
+  #intro .ai-mot { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+  #intro .ai-nom { font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: calc(var(--w) * .34); letter-spacing: calc(var(--w) * .01); margin: 0; background: linear-gradient(90deg, var(--orange2) 10%, var(--gris) 90%); -webkit-background-clip: text; background-clip: text; color: transparent; animation: ai-ecarte .9s 3.65s cubic-bezier(.2,.8,.2,1) both; }
+  #intro .ai-base { font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: calc(var(--w) * .075); margin-top: calc(var(--w) * .02); animation: ai-monte .7s 4.05s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes ai-ecarte { from { opacity: 0; transform: scaleX(.2); letter-spacing: calc(var(--w) * -.05); } to { opacity: 1; transform: none; } }
   /* Animation d'ouverture AMIIS (bandes qui s'enroulent, têtes, nom, signature). */
   .ai-intro { --w: 280px; width: var(--w); display: flex; flex-direction: column; align-items: center; }
   .ai-logo { width: 100%; aspect-ratio: 1; will-change: transform; animation: ai-tour 2.3s cubic-bezier(.3,0,.15,1) both; }
@@ -116,19 +127,19 @@
   <div>
     <div class="ai-intro" role="img" aria-label="AMIIS, la mutualisation simplifiée">
     <div class="ai-logo"><div class="ai-pose"><svg viewBox="-62 -50 1300 1300">
-      <path class="ai-bande ai-o" pathLength="1" d="M4608 767 H608 A315 315 0 1 1 923 452"/>
-      <path class="ai-bande ai-g" pathLength="1" d="M-3432 433 H568 A315 315 0 1 1 253 748"/>
-      <g transform="translate(393 222)"><g class="ai-a ai-tete ai-to"><circle class="ai-r ai-o" r="124"/></g></g>
-      <g transform="translate(783 978)"><g class="ai-a ai-tete ai-tg"><circle class="ai-r ai-g" r="124"/></g></g>
+      <g class="m-o"><path class="ai-bande ai-o" pathLength="1" d="M4608 767 H608 A315 315 0 1 1 923 452"/>
+      <g transform="translate(393 222)"><g class="ai-a ai-tete ai-to"><circle class="ai-r ai-o" r="124"/></g></g></g>
+      <g class="m-g"><path class="ai-bande ai-g" pathLength="1" d="M-3432 433 H568 A315 315 0 1 1 253 748"/>
+      <g transform="translate(783 978)"><g class="ai-a ai-tete ai-tg"><circle class="ai-r ai-g" r="124"/></g></g></g>
     </svg></div></div>
-    <div class="ai-nom">AMIIS</div><div class="ai-base">la mutualisation simplifiée</div>
+    <div class="ai-mot"><div class="ai-nom">AMIIS</div><div class="ai-base">la mutualisation simplifiée</div></div>
     </div>
   </div>
 </div>
 <script>
   var introVue = false; try { introVue = sessionStorage.getItem('amiis_intro') === '1'; sessionStorage.setItem('amiis_intro', '1'); } catch (e) {}
   function introFin() { var i = document.getElementById('intro'); if (!i || i.classList.contains('fin')) return; i.classList.add('fin'); setTimeout(function() { i.remove(); }, 500); }
-  if (introVue || location.hash) document.getElementById('intro').remove(); else setTimeout(introFin, 3300);
+  if (introVue || location.hash) document.getElementById('intro').remove(); else setTimeout(introFin, 5300);
 </script>
 
 <header class="barre"><div class="lim">
