@@ -92,6 +92,8 @@
   .presentation { max-width: 700px; margin: 0 auto; text-align: center; color: var(--doux); font-size: 18.5px; line-height: 1.65; }
   .presentation p { margin: 0 0 14px; }
   .presentation b { color: var(--encre); font-weight: 700; }
+  .presentation .partenaire { display: inline-flex; align-items: center; gap: 12px; text-align: left; margin-top: 6px; padding: 10px 16px 10px 10px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); font-size: 15.5px; }
+  .presentation .partenaire .pic { flex: none; width: 38px; height: 38px; }
   @media (max-width: 640px) { .nom { flex-wrap: nowrap; gap: 4px; } .nom div { min-width: 0; flex: 1; padding: 9px 1px 8px; border-radius: 12px; } .nom b { font-size: 26px; } .nom span { font-size: 9px; line-height: 1.2; letter-spacing: -.1px; margin-top: 4px; } .presentation { font-size: 17px; } }
   /* étapes */
   .etapes { counter-reset: e; }
@@ -597,6 +599,7 @@ body.volet-ouvert { overflow: hidden; }
   <div class="presentation">
     <p>Association basée dans les Landes, AMIIS est née d'un constat simple : les artistes et les petites structures du spectacle passent trop de temps sur l'administratif, seuls, chacun de leur côté.</p>
     <p>Nous apportons un <b>outil mutualisé</b>, qui se construit <b>avec nos adhérents</b> au fil de leurs besoins. Partagé entre tous, il permet un <b>tarif associatif</b>.</p>
+    <p class="partenaire"><span class="pic"><i class="ico" data-ic="paie"></i></span><span>La paie est réalisée avec <b>GHS Spectacle</b>, logiciel de paie professionnel dédié au spectacle vivant.</span></p>
   </div>
   <div class="reseau">
     <div class="chiffre"><b>6</b><span>compagnies<br>dans le réseau</span></div>
@@ -646,7 +649,7 @@ body.volet-ouvert { overflow: hidden; }
     <article class="formule acc">
       <h3>Accompagnement</h3>
       <p class="pour">Vous confiez votre administration à l'équipe AMIIS.</p>
-      <div><div class="prix tnum">374,50 € <small>par an</small></div><p class="sous-prix">Votre part du logiciel de paie mutualisé, adhésion comprise. L'accompagnement est <b>sur devis</b>, après une rencontre.</p></div>
+      <div><div class="prix tnum">374,50 € <small>par an</small></div><p class="sous-prix">Votre part du logiciel de paie mutualisé (GHS Spectacle), adhésion comprise. L'accompagnement est <b>sur devis</b>, après une rencontre.</p></div>
     </article>
     <article class="formule">
       <h3>Paie seule</h3>
@@ -824,7 +827,7 @@ function icoSvg(n) {
     { n: 'centre', ic: 'calendrier', mot: 'Le cœur', t: 'Une date est trouvée', date: ['Le Grand Voyage', '14 mars · Salle des Pins (exemple)'], p: 'Elle devient le cœur de tout : saisie une seule fois, partagée par tous.', tags: ['Saisie une seule fois', 'Partagée par tous', 'À jour partout'] },
     { n: 'compagnie', mot: 'Tout suivre', t: 'La compagnie', p: 'Elle retrouve tout au même endroit : ses dates, ses projets, ses comptes, ses documents. Toujours à jour, sans courir après l\'information.', tags: ['Agenda de la saison', 'Projets', 'Comptabilité', 'Documents'] },
     { n: 'admin', mot: 'Embaucher et payer', t: 'L\'administration et la paie', p: 'De l\'embauche à la fiche de paie, des contrats aux bilans : le juridique et le social s\'enchaînent, sans rien ressaisir.', tags: ['Contrats', 'Paie', 'Signature électronique', 'Bilans'] },
-    { n: 'admin', mutu: true, ic: 'poignee', mot: 'Partager les coûts', t: 'La paie mutualisée', p: 'Un même logiciel de paie professionnel, partagé par toutes les structures : son coût est réparti entre elles.', fort: '<i class="ico">' + icoSvg('paie') + '</i>Un seul logiciel de paie', tags: ['Coût partagé', 'Fiche de paie à tarif associatif', 'Accessible aux petites structures'] },
+    { n: 'admin', mutu: true, ic: 'poignee', mot: 'Partager les coûts', t: 'La paie mutualisée', p: 'Un même logiciel de paie professionnel, GHS Spectacle, partagé par toutes les structures : son coût est réparti entre elles.', fort: '<i class="ico">' + icoSvg('paie') + '</i>Un seul logiciel : GHS Spectacle', tags: ['Coût partagé', 'Fiche de paie à tarif associatif', 'Accessible aux petites structures'] },
     { n: 'regie', mot: 'Préparer', t: 'La régie', p: 'Chaque date se prépare de A à Z : horaires, technique, logistique. Et se partage en un clic avec le lieu et l\'équipe.', tags: ['Planning', 'Technique', 'Logistique', 'Inventaire'] },
     { n: 'lieu', mot: 'Accueillir', t: 'Le lieu d\'accueil', p: 'Un simple lien suffit : il voit ce qui le concerne et complète ce qu\'il sait. Fini les échanges de mails à rallonge.', tags: ['Planning partagé', 'Fiche technique', 'Infos pratiques'] },
     { n: 'equipe', mot: 'Jouer', t: 'L\'équipe artistique', p: 'Artistes et techniciens ont leur espace, sur leur téléphone : tout ce qui les concerne, au bon moment.', tags: ['Convocations', 'Feuilles de route', 'Fiches de paie', 'Notes de frais'] }
