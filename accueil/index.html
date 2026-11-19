@@ -504,6 +504,26 @@ body.volet-ouvert { overflow: hidden; }
   @keyframes logos-defile { to { transform: translateX(calc(-100% - 14px)); } }
   @media (max-width: 640px) { .logos li { height: 50px; padding: 6px 12px; } .logos ul { animation-duration: 36s; } }
   @media (prefers-reduced-motion: reduce) { .logos ul { animation: none; } .logos { flex-wrap: wrap; justify-content: center; } .logos ul[aria-hidden] { display: none; } }
+  /* Formulaire « Nous écrire » */
+  #contact-voile { position: fixed; inset: 0; z-index: 150; background: rgba(10,10,10,.7); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  #contact-voile[hidden] { display: none; }
+  .contact-boite { width: 100%; max-width: 560px; max-height: 100%; overflow-y: auto; background: #262727; border: 1px solid rgba(255,255,255,.1); border-radius: 22px; padding: 26px 24px 22px; box-shadow: 0 30px 80px rgba(0,0,0,.5); position: relative; }
+  .contact-boite h2 { text-align: left; font-size: 28px; margin: 0 0 4px; } .contact-boite > p { color: var(--doux); margin: 0 0 18px; font-size: 15px; }
+  .contact-x { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,.15); background: transparent; color: #fff; font-size: 18px; cursor: pointer; }
+  .contact-boite form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .contact-boite label { display: grid; gap: 6px; font-size: 13.5px; font-weight: 700; color: #E6E6E5; }
+  .contact-boite label.l2 { grid-column: 1 / -1; }
+  .contact-boite input, .contact-boite select, .contact-boite textarea { width: 100%; padding: 11px 12px; border-radius: 11px; border: 1px solid rgba(255,255,255,.14); background: #1D1E1E; color: #fff; font: 500 15px var(--police); }
+  .contact-boite textarea { min-height: 120px; resize: vertical; }
+  .contact-boite input:focus, .contact-boite select:focus, .contact-boite textarea:focus { outline: none; border-color: #F7941D; box-shadow: 0 0 0 3px rgba(247,148,29,.2); }
+  .contact-boite .piege { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .contact-bas { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+  .contact-bas small { color: var(--doux); font-size: 12.5px; flex: 1; min-width: 200px; }
+  #contact-etat { grid-column: 1 / -1; font-size: 14px; font-weight: 600; min-height: 1px; }
+  #contact-etat.err { color: #FF8A80; } #contact-etat.ok { color: #7BC99A; }
+  .contact-merci { text-align: center; padding: 20px 6px 8px; } .contact-merci b { display: block; font-size: 22px; margin: 10px 0 6px; } .contact-merci p { color: var(--doux); margin: 0 0 16px; }
+  .contact-merci .rond { width: 64px; height: 64px; margin: 0 auto; border-radius: 50%; background: rgba(123,201,154,.15); color: #7BC99A; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+  @media (max-width: 560px) { .contact-boite form { grid-template-columns: 1fr; } .contact-boite { padding: 22px 16px 18px; border-radius: 18px; } }
 </style>
 </head>
 <body>
@@ -571,7 +591,7 @@ body.volet-ouvert { overflow: hidden; }
     <div class="logos" aria-label="Les compagnies et structures du réseau">
       <ul><li><img src="logos/ruminantes.jpg" alt="Les Ruminantes" loading="lazy"></li><li><img src="logos/palmera.jpg" alt="Collectif La Palmera" loading="lazy"></li><li><img src="logos/oiseau.jpg" alt="L'Oiseau Manivelle" loading="lazy"></li><li><img src="logos/manoeuvres.jpg" alt="Manœuvres" loading="lazy"></li><li><img src="logos/queerala.jpg" alt="La Queerala" loading="lazy"></li><li><img src="logos/adrienne.jpg" alt="Adrienne Atelier" loading="lazy"></li><li><img src="logos/autresens.jpg" alt="L'autre sens, collectif artistique" loading="lazy"></li><li><img src="logos/paillettes.jpg" alt="Paillettes Queer Show" loading="lazy"></li><li><img src="logos/lanterne.jpg" alt="Les Amulecteurs" loading="lazy"></li><li><img src="logos/terre.jpg" alt="Terre de Musiques" loading="lazy"></li></ul><ul aria-hidden="true"><li><img src="logos/ruminantes.jpg" alt="" data-a="Les Ruminantes" loading="lazy"></li><li><img src="logos/palmera.jpg" alt="" data-a="Collectif La Palmera" loading="lazy"></li><li><img src="logos/oiseau.jpg" alt="" data-a="L'Oiseau Manivelle" loading="lazy"></li><li><img src="logos/manoeuvres.jpg" alt="" data-a="Manœuvres" loading="lazy"></li><li><img src="logos/queerala.jpg" alt="" data-a="La Queerala" loading="lazy"></li><li><img src="logos/adrienne.jpg" alt="" data-a="Adrienne Atelier" loading="lazy"></li><li><img src="logos/autresens.jpg" alt="" data-a="L'autre sens, collectif artistique" loading="lazy"></li><li><img src="logos/paillettes.jpg" alt="" data-a="Paillettes Queer Show" loading="lazy"></li><li><img src="logos/lanterne.jpg" alt="" data-a="Les Amulecteurs" loading="lazy"></li><li><img src="logos/terre.jpg" alt="" data-a="Terre de Musiques" loading="lazy"></li></ul>
     </div>
-    <div class="places"><span class="pic"><i class="ico" data-ic="groupe"></i></span><p><b>Une association à taille humaine.</b> Nous accueillons volontiers de nouvelles structures, mais nous tenons à rester une petite équipe qui connaît chacun de ses membres. C'est pourquoi le réseau grandit pas à pas : parlons-en ensemble.</p><a class="btn orange petit" href="mailto:asso.amiis.landes@gmail.com?subject=Rejoindre%20AMIIS">Nous écrire</a></div>
+    <div class="places"><span class="pic"><i class="ico" data-ic="groupe"></i></span><p><b>Une association à taille humaine.</b> Nous accueillons volontiers de nouvelles structures, mais nous tenons à rester une petite équipe qui connaît chacun de ses membres. C'est pourquoi le réseau grandit pas à pas : parlons-en ensemble.</p><a class="btn orange petit" href="#contact" onclick="return contactOuvrir('Rejoindre AMIIS')">Nous écrire</a></div>
   </div>
 </div></section>
 
@@ -642,7 +662,7 @@ body.volet-ouvert { overflow: hidden; }
       <div><h3>Membres avant tout</h3><p>Chaque structure est membre de l'association : elle peut proposer les prochains outils et participer à leur élaboration.</p></div>
     </div>
   </details>
-  <p class="devis-lien"><a class="btn clair" href="mailto:asso.amiis.landes@gmail.com?subject=Demande%20de%20devis%20AMIIS"><i class="ico" data-ic="mail"></i>Demander un devis</a></p>
+  <p class="devis-lien"><a class="btn clair" href="#contact" onclick="return contactOuvrir('Demande de devis')"><i class="ico" data-ic="mail"></i>Demander un devis</a></p>
 </div>
 <div class="volet" id="volet-modules" hidden role="dialog" aria-modal="true" aria-labelledby="vm-t"><div class="volet-in wrap">
   <div class="volet-tete"><h2 id="vm-t">Des modules à la carte</h2><button type="button" class="volet-x" onclick="voletFermer()" aria-label="Fermer">✕</button></div>
@@ -696,10 +716,31 @@ body.volet-ouvert { overflow: hidden; }
 </div></div>
 </div></section>
 
+<div id="contact-voile" hidden onclick="if (event.target === this) contactFermer()">
+  <div class="contact-boite" role="dialog" aria-modal="true" aria-labelledby="contact-titre">
+    <button type="button" class="contact-x" aria-label="Fermer" onclick="contactFermer()">✕</button>
+    <div id="contact-corps">
+    <h2 id="contact-titre">Nous écrire</h2>
+    <p>Votre message arrive directement dans la boîte de l'association. Nous vous répondons par e-mail.</p>
+    <form id="contact-form" onsubmit="contactEnvoyer(event)">
+      <label>Votre nom<input name="nom" required maxlength="80" autocomplete="name"></label>
+      <label>Votre structure <small style="font-weight:500;color:var(--doux)">(facultatif)</small><input name="structure" maxlength="120" autocomplete="organization"></label>
+      <label>E-mail<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
+      <label>Téléphone <small style="font-weight:500;color:var(--doux)">(facultatif)</small><input name="tel" type="tel" maxlength="25" autocomplete="tel"></label>
+      <label class="l2">Objet<select name="objet"><option>Rejoindre AMIIS</option><option>Demande de devis</option><option>Question</option><option>Autre</option></select></label>
+      <label class="l2">Message<textarea name="message" required maxlength="4000" placeholder="Présentez-nous votre structure et ce que vous cherchez…"></textarea></label>
+      <input class="piege" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div id="contact-etat" role="status"></div>
+      <div class="contact-bas"><small>Vos coordonnées servent seulement à vous répondre.</small><button class="btn orange" type="submit" id="contact-btn"><i class="ico" data-ic="envoi"></i>Envoyer</button></div>
+    </form>
+    </div>
+  </div>
+</div>
 <footer id="contact"><div class="lim">
   <a class="marque" href="#haut"><img src="../icon-192-v2.png" alt="">AMIIS</a>
   <p>la mutualisation simplifiée · association basée dans les Landes</p>
-  <p>Une question ? <a class="mail" href="mailto:asso.amiis.landes@gmail.com">asso.amiis.landes@gmail.com</a></p>
+  <p><a class="btn orange petit" href="#contact" onclick="return contactOuvrir('Question')" style="margin-bottom:10px"><i class="ico" data-ic="mail"></i>Nous écrire</a></p>
+  <p>Ou directement : <a class="mail" href="mailto:asso.amiis.landes@gmail.com">asso.amiis.landes@gmail.com</a></p>
 </div></footer>
 <script>
 // ── Pictogrammes au trait (même style partout) ──
@@ -939,6 +980,48 @@ function videoOuvrir() {
     return false;
   } catch (e) { return true; }
 }
+</script>
+<script>
+// ── Formulaire « Nous écrire » : envoyé à l'appli AMIIS, qui transmet le message à la boîte de l'association. ──
+var AMIIS_APPLI = 'https://script.google.com/macros/s/AKfycbz4gHbfrNc0zJN1CrLb5y6s1JuF32mAdR-yFUDsEH0RKcSutef6GppSAZFIkJxBPfQIZg/exec';
+var AMIIS_APP = (navigator.userAgent.match(/iPhone|iPad|Android/i) || ['Ordinateur'])[0], AMIIS_MOI = false;
+try { AMIIS_MOI = localStorage.getItem('amiis_moi') === '1'; } catch (e) {}
+var amiisIp = fetch('https://api.ipify.org?format=json').then(function(r) { return r.json(); }).then(function(j) { return (j && j.ip) || ''; }).catch(function() { return ''; });
+var amiisIpT = Promise.race([amiisIp, new Promise(function(ok) { setTimeout(function() { ok(''); }, 3000); })]).then(function(ip) { return AMIIS_MOI ? 'moi ' + (ip || '0.0.0.0') : ip; });
+function amiisStat(ev, detail) { amiisIpT.then(function(ip) { try { fetch(AMIIS_APPLI + '?stat=' + ev + '&app=' + encodeURIComponent(AMIIS_APP) + '&ip=' + encodeURIComponent(ip) + (detail ? '&detail=' + encodeURIComponent(detail) : ''), { mode: 'no-cors', keepalive: true }).catch(function() {}); } catch (e) {} }); }
+function contactOuvrir(objet) {
+  var v = document.getElementById('contact-voile'), f = document.getElementById('contact-form');
+  if (!f) { document.getElementById('contact-corps').innerHTML = CONTACT_FORM; f = document.getElementById('contact-form'); }
+  if (objet && f) f.objet.value = objet;
+  v.hidden = false; document.documentElement.style.overflow = 'hidden';
+  setTimeout(function() { var n = f && f.nom; if (n && innerWidth > 700) n.focus(); }, 50);
+  return false;
+}
+function contactFermer() { document.getElementById('contact-voile').hidden = true; document.documentElement.style.overflow = ''; if (location.hash === '#contact') history.replaceState(null, '', location.pathname); }
+var CONTACT_FORM = document.getElementById('contact-corps').innerHTML;
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && !document.getElementById('contact-voile').hidden) contactFermer(); });
+function contactEnvoyer(ev) {
+  ev.preventDefault();
+  var f = ev.target, b = document.getElementById('contact-btn'), etat = document.getElementById('contact-etat');
+  var d = { nom: f.nom.value, structure: f.structure.value, email: f.email.value, tel: f.tel.value, objet: f.objet.value, message: f.message.value, site: f.site.value, app: AMIIS_APP };
+  b.disabled = true; b.lastChild.textContent = 'Envoi…'; etat.className = ''; etat.textContent = '';
+  amiisIpT.then(function(ip) { d.ip = ip;
+    return fetch(AMIIS_APPLI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'contactSite', payload: d }) }); })
+    .then(function(r) { return r.json(); })
+    .then(function(r) {
+      if (r && r.success) { document.getElementById('contact-corps').innerHTML = '<div class="contact-merci"><div class="rond">✓</div><b>Message envoyé, merci !</b><p>Nous vous répondons rapidement à l\'adresse ' + d.email.replace(/[<>&"]/g, '') + '.</p><button class="btn clair" type="button" onclick="contactFermer()">Fermer</button></div>'; }
+      else throw new Error((r && (r.error || r.message)) || 'Envoi impossible');
+    })
+    .catch(function(e) { b.disabled = false; b.lastChild.textContent = 'Envoyer'; etat.className = 'err'; etat.textContent = (e && e.message && !/fetch|network|JSON/i.test(e.message)) ? e.message : 'Envoi impossible pour le moment. Écrivez-nous directement à asso.amiis.landes@gmail.com.'; });
+}
+if (location.hash === '#contact') contactOuvrir();
+// ── Trafic du site (compteurs anonymes, lus dans l'appli : Configuration › Trafic) ──
+amiisStat('site_vue');
+if ('IntersectionObserver' in window) {
+  var vues = {}; var obs = new IntersectionObserver(function(es) { es.forEach(function(e) { var id = e.target.id; if (e.isIntersecting && !vues[id]) { vues[id] = 1; amiisStat('site_section', id); obs.unobserve(e.target); } }); }, { threshold: .3 });
+  ['asso', 'ecosysteme', 'demo', 'tarifs'].forEach(function(id) { var el = document.getElementById(id); if (el) obs.observe(el); });
+}
+if (typeof voletOuvrir === 'function') { var _vo = voletOuvrir; voletOuvrir = function(id) { amiisStat('site_section', id === 'volet-simu' ? 'calculateur' : 'modules'); return _vo.apply(this, arguments); }; }
 </script>
 </body>
 </html>

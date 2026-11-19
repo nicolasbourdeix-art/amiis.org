@@ -95,7 +95,7 @@
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(LIEN).then(ok, function() { prompt('Lien de la vidéo :', LIEN); });
     else prompt('Lien de la vidéo :', LIEN);
   }
-  function contacter() { stat('video_contact'); location.href = 'mailto:' + CONTACT + '?subject=' + e('AMIIS : demande d’informations'); return false; }
+  function contacter() { stat('video_contact'); location.href = '../accueil/#contact'; return false; }
 </script>
 </body>
 </html>
