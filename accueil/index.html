@@ -482,6 +482,10 @@ body.volet-ouvert { overflow: hidden; }
     .demo-fil { padding: 12px 14px; } .demo-fil p { font-size: 14px; }
   }
   .demo-note { text-align: center; color: var(--doux); font-size: 14px; margin: 20px 0 0; }
+  /* Vidéo en plein écran, par-dessus la page */
+  #lecteur { position: fixed; inset: 0; z-index: 200; background: #000; display: flex; align-items: center; justify-content: center; }
+  #lecteur video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+  #lecteur button { position: absolute; top: max(14px, env(safe-area-inset-top)); right: 14px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: rgba(0,0,0,.55); color: #fff; font-size: 22px; cursor: pointer; z-index: 1; }
 </style>
 </head>
 <body>
@@ -524,7 +528,7 @@ body.volet-ouvert { overflow: hidden; }
   <div class="boutons">
     <a class="btn orange" href="../?connexion=equipe"><i class="ico" data-ic="cle"></i>Se connecter</a>
     <a class="btn clair" href="#demo"><i class="ico" data-ic="curseur"></i>Essayer la démo</a>
-    <a class="btn clair" href="../video/"><i class="ico" data-ic="lecture"></i>La vidéo · 2 min</a>
+    <a class="btn clair" href="../video/" onclick="return videoOuvrir()"><i class="ico" data-ic="lecture"></i>La vidéo · 2 min</a>
   </div>
 </div></div>
 
@@ -881,6 +885,32 @@ calcul();
     a.addEventListener('click', function() { if (moi) return; try { fetch(APPLI + '?stat=demo_role&app=' + encodeURIComponent(app) + '&detail=' + encodeURIComponent(r), { mode: 'no-cors', keepalive: true }).catch(function() {}); } catch (e) {} });
   });
 })();
+</script>
+<script>
+// Bouton « La vidéo » : la vidéo s'ouvre en plein écran par-dessus la page (verticale sur téléphone en hauteur).
+function videoOuvrir() {
+  try {
+    var vertical = matchMedia('(orientation: portrait)').matches && Math.min(screen.width, screen.height) < 900, f = vertical ? 'ecosysteme-9x16' : 'ecosysteme-16x9';
+    var o = document.createElement('div'); o.id = 'lecteur';
+    o.innerHTML = '<button type="button" aria-label="Fermer">✕</button><video playsinline controls autoplay preload="auto" poster="../video/' + f + '.jpg" src="../video/' + f + '.mp4"></video>';
+    document.body.appendChild(o); document.documentElement.style.overflow = 'hidden';
+    var v = o.querySelector('video'), fermer = function() { if (!o.parentNode) return; try { v.pause(); } catch (e) {} o.remove(); document.documentElement.style.overflow = ''; if (document.fullscreenElement) document.exitFullscreen().catch(function() {}); };
+    o.querySelector('button').onclick = fermer;
+    v.addEventListener('ended', fermer);
+    document.addEventListener('keydown', function k(e) { if (e.key === 'Escape') { fermer(); document.removeEventListener('keydown', k); } });
+    // Vrai plein écran quand le navigateur le permet ; en le quittant, on revient à la page.
+    var pe = o.requestFullscreen ? o.requestFullscreen() : null;
+    if (pe && pe.catch) pe.catch(function() {});
+    else if (v.webkitEnterFullscreen) { try { v.webkitEnterFullscreen(); } catch (e) {} }
+    document.addEventListener('fullscreenchange', function c() { if (!document.fullscreenElement) { fermer(); document.removeEventListener('fullscreenchange', c); } });
+    v.addEventListener('webkitendfullscreen', fermer);
+    var pl = v.play(); if (pl && pl.catch) pl.catch(function() {});
+    // Compteur anonyme de vues (sauf sur l'appareil de l'administrateur).
+    var moi = false; try { moi = localStorage.getItem('amiis_moi') === '1'; } catch (e) {}
+    if (!moi) try { fetch('https://script.google.com/macros/s/AKfycbz4gHbfrNc0zJN1CrLb5y6s1JuF32mAdR-yFUDsEH0RKcSutef6GppSAZFIkJxBPfQIZg/exec?stat=video_vue&app=' + encodeURIComponent((navigator.userAgent.match(/iPhone|iPad|Android/i) || ['Ordinateur'])[0]) + '&detail=accueil', { mode: 'no-cors', keepalive: true }).catch(function() {}); } catch (e) {}
+    return false;
+  } catch (e) { return true; }
+}
 </script>
 </body>
 </html>
