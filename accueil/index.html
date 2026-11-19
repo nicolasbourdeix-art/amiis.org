@@ -390,7 +390,7 @@
 #tarifs-page .res-mois { opacity: .75; margin-top: 6px; }
 #tarifs-page .lignes { display: grid; gap: 8px; font-size: .93rem; border-top: 1px solid color-mix(in srgb, var(--bg) 25%, transparent); padding-top: 14px; }
 #tarifs-page .lignes div { display: flex; justify-content: space-between; gap: 12px; }
-#tarifs-page .lignes div span:last-child { font-weight: 700; white-space: nowrap; }
+#tarifs-page .lignes div span:last-child { font-weight: 700; white-space: nowrap; } #tarifs-page .lignes .par-fiche { color: var(--orange); font-size: 1.05em; } #tarifs-page .lignes .par-fiche-d { display: block; font-size: .82em; opacity: .75; font-weight: 500; } #tarifs-page .lignes div:has(.par-fiche) { border-top: 1px dashed currentColor; border-bottom: 1px dashed currentColor; padding: 8px 0; margin: 2px 0; }
 #tarifs-page .res-plus { font-size: .88rem; opacity: .8; }
 /* Exemples */
 #tarifs-page .exemples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
@@ -862,6 +862,7 @@ function calcul() {
     const f = fiches * 12 * FICHE; total += f; lignes.push([fiches * 12 + ' fiches × 12 €', f]);
     const tranches = Math.ceil(Math.max(0, brut - 10000) / 1000);
     if (tranches) { total += tranches * 5; lignes.push(['Participation au logiciel : ' + (brut - 10000).toLocaleString('fr-FR') + ' € de salaires au-delà de 10 000 €', tranches * 5]); }
+    if (fiches) { const paie = (pack ? 0 : ADHESION) + f + tranches * 5, nbF = fiches * 12; lignes.push(['<b class="par-fiche">Soit ' + euros(Math.round(paie / nbF * 100) / 100) + ' par fiche de paie</b><small class="par-fiche-d">' + (pack ? 'fiche et participation' : 'adhésion, fiche et participation') + ' comprises, hors modules</small>', '<b class="par-fiche">' + euros(Math.round(paie * 100) / 100) + '</b>']); }
     if (pack) { total += 288; lignes.push(['Pack tout compris (adhésion comprise)', 288]); }
     else MODULES.filter(m => m.id !== 'pack' && !m.inclusSeule && $('#m-' + m.id).checked).forEach(m => { total += m.an; lignes.push([m.nom, m.an]); });
     if (!pack) lignes.push(['Signature électronique des contrats', 'incluse']);
