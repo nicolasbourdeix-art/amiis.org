@@ -486,6 +486,24 @@ body.volet-ouvert { overflow: hidden; }
   #lecteur { position: fixed; inset: 0; z-index: 200; background: #000; display: flex; align-items: center; justify-content: center; }
   #lecteur video { width: 100%; height: 100%; object-fit: contain; background: #000; }
   #lecteur button { position: absolute; top: max(14px, env(safe-area-inset-top)); right: 14px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: rgba(0,0,0,.55); color: #fff; font-size: 22px; cursor: pointer; z-index: 1; }
+  /* Le réseau aujourd'hui : chiffres et places limitées */
+  .reseau { max-width: 900px; margin: 34px auto 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .reseau .chiffre { text-align: center; padding: 22px 16px; border-radius: 20px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); }
+  .reseau .chiffre b { display: block; font-size: 56px; font-weight: 800; line-height: 1; letter-spacing: -.04em; background: linear-gradient(180deg, #FFB766, #F7941D); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .reseau .chiffre span { display: block; margin-top: 10px; color: var(--doux); font-size: 15px; line-height: 1.4; }
+  .reseau .places { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: 20px; background: linear-gradient(180deg, rgba(247,148,29,.13), rgba(247,148,29,.05)); border: 1px solid rgba(247,148,29,.38); }
+  .reseau .places .pic { flex: none; } .reseau .places p { margin: 0; flex: 1; color: var(--doux); font-size: 15px; } .reseau .places p b { color: var(--encre); }
+  .reseau .places .btn { flex: none; }
+  @media (max-width: 640px) { .reseau { gap: 8px; } .reseau .chiffre { padding: 16px 6px; border-radius: 16px; } .reseau .chiffre b { font-size: 40px; } .reseau .chiffre span { font-size: 12.5px; } .reseau .places { flex-direction: column; align-items: flex-start; } }
+  /* Logos des compagnies du réseau, qui défilent */
+  .logos { grid-column: 1 / -1; display: flex; overflow: hidden; gap: 14px; padding: 4px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .logos ul { flex: none; display: flex; gap: 14px; margin: 0; padding: 0; list-style: none; animation: logos-defile 45s linear infinite; }
+  .logos:hover ul { animation-play-state: paused; }
+  .logos li { flex: none; height: 64px; padding: 8px 16px; border-radius: 14px; background: #fff; display: flex; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+  .logos img { height: 100%; width: auto; display: block; }
+  @keyframes logos-defile { to { transform: translateX(calc(-100% - 14px)); } }
+  @media (max-width: 640px) { .logos li { height: 50px; padding: 6px 12px; } .logos ul { animation-duration: 36s; } }
+  @media (prefers-reduced-motion: reduce) { .logos ul { animation: none; } .logos { flex-wrap: wrap; justify-content: center; } .logos ul[aria-hidden] { display: none; } }
 </style>
 </head>
 <body>
@@ -545,6 +563,15 @@ body.volet-ouvert { overflow: hidden; }
   <div class="presentation">
     <p>Association basée dans les Landes, AMIIS est née d'un constat simple : les artistes et les petites structures du spectacle passent trop de temps sur l'administratif, seuls, chacun de leur côté.</p>
     <p>Nous apportons un <b>outil mutualisé</b>, qui se construit <b>avec nos adhérents</b> au fil de leurs besoins. Partagé entre tous, il permet un <b>tarif associatif</b>.</p>
+  </div>
+  <div class="reseau">
+    <div class="chiffre"><b>6</b><span>compagnies<br>dans le réseau</span></div>
+    <div class="chiffre"><b>7</b><span>structures<br>pour qui nous faisons la paie</span></div>
+    <div class="chiffre"><b>6</b><span>artistes produits<br>par l'association</span></div>
+    <div class="logos" aria-label="Les compagnies et structures du réseau">
+      <ul><li><img src="logos/ruminantes.jpg" alt="Les Ruminantes" loading="lazy"></li><li><img src="logos/palmera.jpg" alt="Collectif La Palmera" loading="lazy"></li><li><img src="logos/oiseau.jpg" alt="L'Oiseau Manivelle" loading="lazy"></li><li><img src="logos/manoeuvres.jpg" alt="Manœuvres" loading="lazy"></li><li><img src="logos/queerala.jpg" alt="La Queerala" loading="lazy"></li><li><img src="logos/adrienne.jpg" alt="Adrienne Atelier" loading="lazy"></li><li><img src="logos/autresens.jpg" alt="L'autre sens, collectif artistique" loading="lazy"></li><li><img src="logos/paillettes.jpg" alt="Paillettes Queer Show" loading="lazy"></li><li><img src="logos/lanterne.jpg" alt="Compagnie du réseau AMIIS" loading="lazy"></li><li><img src="logos/terre.jpg" alt="Terre de Musiques" loading="lazy"></li></ul><ul aria-hidden="true"><li><img src="logos/ruminantes.jpg" alt="" data-a="Les Ruminantes" loading="lazy"></li><li><img src="logos/palmera.jpg" alt="" data-a="Collectif La Palmera" loading="lazy"></li><li><img src="logos/oiseau.jpg" alt="" data-a="L'Oiseau Manivelle" loading="lazy"></li><li><img src="logos/manoeuvres.jpg" alt="" data-a="Manœuvres" loading="lazy"></li><li><img src="logos/queerala.jpg" alt="" data-a="La Queerala" loading="lazy"></li><li><img src="logos/adrienne.jpg" alt="" data-a="Adrienne Atelier" loading="lazy"></li><li><img src="logos/autresens.jpg" alt="" data-a="L'autre sens, collectif artistique" loading="lazy"></li><li><img src="logos/paillettes.jpg" alt="" data-a="Paillettes Queer Show" loading="lazy"></li><li><img src="logos/lanterne.jpg" alt="" data-a="Compagnie du réseau AMIIS" loading="lazy"></li><li><img src="logos/terre.jpg" alt="" data-a="Terre de Musiques" loading="lazy"></li></ul>
+    </div>
+    <div class="places"><span class="pic"><i class="ico" data-ic="groupe"></i></span><p><b>Une association à taille humaine.</b> Nous accueillons volontiers de nouvelles structures, mais nous tenons à rester une petite équipe qui connaît chacun de ses membres. C'est pourquoi le réseau grandit pas à pas : parlons-en ensemble.</p><a class="btn orange petit" href="mailto:asso.amiis.landes@gmail.com?subject=Rejoindre%20AMIIS">Nous écrire</a></div>
   </div>
 </div></section>
 
