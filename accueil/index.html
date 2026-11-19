@@ -457,6 +457,31 @@ body.volet-ouvert { overflow: hidden; }
   #tarifs-page .resultat .lignes, #tarifs-page .resultat .lignes div { border-color: rgba(255,255,255,.1); }
   #tarifs-page .gros.tplein { background: linear-gradient(180deg, #F59A3C, #EA7F18); border-color: transparent; }
   section#tarifs { padding-top: 88px; }
+
+  /* ── Démo : les six espaces, directement depuis l'accueil ── */
+  .demo-fil { display: flex; gap: 14px; align-items: flex-start; max-width: 820px; margin: 0 auto 26px; padding: 16px 18px; border-radius: 16px; background: rgba(247,148,29,.08); border: 1px solid rgba(247,148,29,.28); }
+  .demo-fil p { margin: 0; color: var(--doux); font-size: 15px; } .demo-fil b { color: var(--encre); }
+  .demo-fil .pic { flex: none; width: 40px; height: 40px; }
+  .demo-grille { display: grid; gap: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 900px) { .demo-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .demo-carte { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "ic t" "ic d" "ic e"; column-gap: 14px; row-gap: 4px; align-items: start; padding: 18px; border-radius: 18px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); text-decoration: none; cursor: pointer; transition: transform .2s, border-color .2s, background .2s; }
+  .demo-carte:hover { transform: translateY(-2px); border-color: rgba(247,148,29,.5); background: rgba(247,148,29,.06); }
+  .demo-carte .pic { grid-area: ic; }
+  .demo-carte b { grid-area: t; font-size: 17px; font-weight: 700; color: var(--encre); }
+  .demo-carte > span:not(.pic) { grid-area: d; color: var(--doux); font-size: 14.5px; line-height: 1.5; }
+  .demo-carte em { grid-area: e; font-style: normal; font-weight: 700; font-size: 14px; color: #F7A54A; display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .demo-carte:hover em .ico { transform: translateX(3px); } .demo-carte em .ico { transition: transform .2s; }
+  .demo-carte, .demo-carte b { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+  @media (max-width: 560px) {
+    .demo-grille { gap: 10px; }
+    .demo-grille .demo-carte { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr auto; grid-template-areas: "ic" "t" "e"; padding: 14px; row-gap: 8px; }
+    .demo-grille .demo-carte > span:not(.pic) { display: none; }
+    .demo-grille .demo-carte b { font-size: 15px; line-height: 1.25; overflow-wrap: break-word; hyphens: auto; }
+    @media (max-width: 340px) { .demo-grille .demo-carte b { font-size: 13.5px; } .demo-grille .demo-carte { padding: 12px; } }
+    .demo-grille .demo-carte em { margin-top: 0; }
+    .demo-fil { padding: 12px 14px; } .demo-fil p { font-size: 14px; }
+  }
+  .demo-note { text-align: center; color: var(--doux); font-size: 14px; margin: 20px 0 0; }
 </style>
 </head>
 <body>
@@ -484,10 +509,9 @@ body.volet-ouvert { overflow: hidden; }
   <nav class="liens">
     <a href="#asso">L'association</a>
     <a href="#ecosysteme">Écosystème</a>
-    <a href="#services">Services</a>
-    <a href="#video">Vidéo</a>
+    <a href="#demo">Démo</a>
     <a href="#tarifs">Tarifs</a>
-    <a class="btn plein petit" href="#connexion"><i class="ico" data-ic="cle"></i>Se connecter</a>
+    <a class="btn plein petit" href="../?connexion=equipe"><i class="ico" data-ic="cle"></i>Se connecter</a>
   </nav>
 </div></header>
 
@@ -498,8 +522,8 @@ body.volet-ouvert { overflow: hidden; }
   <p class="sous">la mutualisation simplifiée</p>
   <p class="intro">Un outil mutualisé pour la paie, l'administration et le suivi des dates, pour que les artistes, les compagnies et les lieux se consacrent au spectacle.</p>
   <div class="boutons">
-    <a class="btn orange" href="#connexion"><i class="ico" data-ic="cle"></i>Se connecter</a>
-    <a class="btn clair" href="../demo/"><i class="ico" data-ic="curseur"></i>Essayer la démo</a>
+    <a class="btn orange" href="../?connexion=equipe"><i class="ico" data-ic="cle"></i>Se connecter</a>
+    <a class="btn clair" href="#demo"><i class="ico" data-ic="curseur"></i>Essayer la démo</a>
     <a class="btn clair" href="../video/"><i class="ico" data-ic="lecture"></i>La vidéo · 2 min</a>
   </div>
 </div></div>
@@ -533,48 +557,20 @@ body.volet-ouvert { overflow: hidden; }
   </div>
 </section>
 
-<section id="services"><div class="lim">
-  <span class="surtitre">Services</span>
-  <h2>À la carte</h2>
-  <p class="chapo">Vous choisissez ce dont votre structure a besoin.</p>
-  <div class="grille">
-    <div class="carte"><div class="pic"><i class="ico" data-ic="paie"></i></div><h3>Paie et social</h3><ul><li>Paie mutualisée des intermittents</li><li>Déclarations (DPAE, cachets)</li><li>Contrats signés en ligne</li><li>Fiches de paie dans votre espace</li></ul></div>
-    <div class="carte"><div class="pic"><i class="ico" data-ic="graphique"></i></div><h3>Comptabilité et gestion</h3><ul><li>Suivi des recettes et dépenses</li><li>Notes de frais signées en ligne</li><li>Caisses et budgets par projet</li></ul></div>
-    <div class="carte"><div class="pic"><i class="ico" data-ic="megaphone"></i></div><h3>Production et diffusion</h3><ul><li>Agenda des dates et devis</li><li>Contrats de cession</li><li>Suivi des contacts et relances</li><li>Feuilles de route et régie</li></ul></div>
-    <div class="carte"><div class="pic"><i class="ico" data-ic="dossier"></i></div><h3>Administration</h3><ul><li>Centre administratif : statuts, PV, AG</li><li>Bilan d'activité</li><li>Rappels avant les échéances</li></ul></div>
+<section id="demo" class="gris"><div class="lim">
+  <span class="surtitre">Démo en libre accès</span>
+  <h2>Essayez, sans inscription</h2>
+  <p class="chapo">Entrez dans l'espace de votre choix. Toutes les données sont fictives : cliquez partout, rien n'est enregistré et aucun e-mail n'est envoyé.</p>
+  <div class="demo-fil"><span class="pic"><i class="ico" data-ic="calendrier"></i></span><p>Le fil rouge de la démo : <b>« La Nuit des Lucioles »</b> de la Compagnie Les Lucioles, au Théâtre du Rivage, à Bordeaux. Vendue par la diffusion, préparée par la régie, déclarée par l'administration, accueillie par le lieu, jouée par l'équipe.</p></div>
+  <div class="demo-grille">
+    <a class="demo-carte" data-r="DEMODIFF"><span class="pic"><i class="ico" data-ic="megaphone"></i></span><b>Diffusion</b><span>Trouver les lieux, mener les campagnes, suivre les relances et vendre les dates.</span><em>Entrer <i class="ico" data-ic="fleche"></i></em></a>
+    <a class="demo-carte" data-r="DEMOCIE"><span class="pic"><i class="ico" data-ic="groupe"></i></span><b>Compagnie</b><span>Ses dates, ses projets, ses comptes et ses documents, toujours à jour, au même endroit.</span><em>Entrer <i class="ico" data-ic="fleche"></i></em></a>
+    <a class="demo-carte" data-r="INTERFACE"><span class="pic"><i class="ico" data-ic="mallette"></i></span><b>Administration et paie</b><span>Contrats, DPAE, fiches de paie, déclarations et bilans, sans ressaisie.</span><em>Entrer <i class="ico" data-ic="fleche"></i></em></a>
+    <a class="demo-carte" data-r="DEMOREGIE"><span class="pic"><i class="ico" data-ic="reglages"></i></span><b>Régie</b><span>Planning heure par heure, fiche technique, transport, feuille de route et convocations.</span><em>Entrer <i class="ico" data-ic="fleche"></i></em></a>
+    <a class="demo-carte" data-r="LIEU"><span class="pic"><i class="ico" data-ic="lieu"></i></span><b>Lieu d'accueil</b><span>Ce que voit le théâtre par un simple lien : le planning, la technique, ses infos à compléter.</span><em>Entrer <i class="ico" data-ic="fleche"></i></em></a>
+    <a class="demo-carte" data-r="EQUIPE"><span class="pic"><i class="ico" data-ic="micro"></i></span><b>Équipe artistique</b><span>Le planning d'une comédienne : ses horaires, l'adresse, l'hébergement et le transport.</span><em>Entrer <i class="ico" data-ic="fleche"></i></em></a>
   </div>
-</div></section>
-
-<section class="gris" id="comment"><div class="lim">
-  <span class="surtitre">Adhérer</span>
-  <h2>Comment ça marche ?</h2>
-  <p class="chapo">Trois étapes pour rejoindre AMIIS.</p>
-  <div class="grille etapes">
-    <div class="carte"><div class="num"></div><h3>On en parle</h3><p>Vous nous présentez votre structure et vos besoins. Nous vous proposons les services utiles et un devis.</p></div>
-    <div class="carte"><div class="num"></div><h3>On vous ouvre un espace</h3><p>Vous recevez un code d'accès à votre portail : dates, contrats, documents et paie au même endroit.</p></div>
-    <div class="carte"><div class="num"></div><h3>On s'occupe du reste</h3><p>Déclarations, contrats, fiches de paie et rappels : l'équipe AMIIS suit tout, vous gardez la main.</p></div>
-  </div>
-</div></section>
-
-<section id="video"><div class="lim">
-  <span class="surtitre">Vidéo</span>
-  <h2>AMIIS en 2 minutes</h2>
-  <p class="chapo">Comment une date de spectacle relie tous ceux qui la font exister.</p>
-  <a class="video" href="../video/" aria-label="Voir la vidéo"><img src="../video/ecosysteme-16x9.jpg" alt="Aperçu de la vidéo AMIIS" loading="lazy"><span><b><i class="ico" data-ic="lecture"></i></b></span></a>
-  <div class="boutons" style="margin-top:26px">
-    <a class="btn clair" href="../demo/"><i class="ico" data-ic="curseur"></i>Essayer la démo, sans inscription</a>
-  </div>
-</div></section>
-
-<section class="gris" id="connexion"><div class="lim acces">
-  <span class="surtitre">Espace de connexion</span>
-  <h2>Choisissez votre accès</h2>
-  <p class="chapo">Chacun retrouve son espace, sur ordinateur comme sur téléphone.</p>
-  <div class="grille">
-    <div class="carte mise"><div class="pic"><i class="ico" data-ic="groupe"></i></div><h3>Compagnies, structures et artistes</h3><p>Votre portail avec le code d'accès reçu d'AMIIS : dates, contrats, déclarations, documents, notes de frais.</p><a class="btn orange" href="../?connexion=code"><i class="ico" data-ic="cle"></i>Ouvrir mon portail</a></div>
-    <div class="carte"><div class="pic v"><i class="ico" data-ic="tableau"></i></div><h3>Équipe AMIIS</h3><p>L'interface de gestion de l'association, avec identifiant et mot de passe.</p><a class="btn clair" href="../?connexion=equipe">Connexion équipe<i class="ico" data-ic="fleche"></i></a></div>
-    <div class="carte"><div class="pic v"><i class="ico" data-ic="aide"></i></div><h3>Pas encore de code ?</h3><p>Votre structure n'a pas encore d'espace AMIIS : présentez-nous votre projet, nous vous ouvrons un accès.</p><a class="btn clair" href="mailto:asso.amiis.landes@gmail.com?subject=Demande%20d%27acc%C3%A8s%20AMIIS"><i class="ico" data-ic="mail"></i>Nous écrire</a></div>
-  </div>
+  <p class="demo-note">Dans chaque espace, le bouton « Démo » en haut permet de passer à un autre rôle.</p>
 </div></section>
 
 <section id="tarifs"><div id="tarifs-page"><div class="wrap">
@@ -873,6 +869,18 @@ function calcul() {
 }
 document.getElementById('simu').addEventListener('input', calcul);
 calcul();
+</script>
+<script>
+// Démo : chaque carte ouvre l'appli dans le rôle de démo choisi (compteur anonyme, sauf sur l'appareil de l'administrateur).
+(function() {
+  var APPLI = 'https://script.google.com/macros/s/AKfycbz4gHbfrNc0zJN1CrLb5y6s1JuF32mAdR-yFUDsEH0RKcSutef6GppSAZFIkJxBPfQIZg/exec', moi = false;
+  try { moi = localStorage.getItem('amiis_moi') === '1'; } catch (e) {}
+  var app = (navigator.userAgent.match(/iPhone|iPad|Android/i) || ['Ordinateur'])[0];
+  [].forEach.call(document.querySelectorAll('.demo-carte'), function(a) {
+    var r = a.getAttribute('data-r'); a.href = '../?role=demo&code=' + r;
+    a.addEventListener('click', function() { if (moi) return; try { fetch(APPLI + '?stat=demo_role&app=' + encodeURIComponent(app) + '&detail=' + encodeURIComponent(r), { mode: 'no-cors', keepalive: true }).catch(function() {}); } catch (e) {} });
+  });
+})();
 </script>
 </body>
 </html>
